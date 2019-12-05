@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: practic
+    branches: ab
 jobs:
   build:
 
