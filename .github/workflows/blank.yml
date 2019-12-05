@@ -1,8 +1,8 @@
-name: CI
+name: CI-Backend
 
 on:
   push:
-    branches: test
+    branches: develop
 jobs:
   build:
 
