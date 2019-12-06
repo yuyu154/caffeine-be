@@ -23,6 +23,6 @@ class ShopInternalService {
 
     Shop findById(final long id) {
         return shopRepository.findById(id)
-                .orElseThrow(() -> new ShopNotFoundException(id));
+            .orElseThrow(() -> new ShopNotFoundException(id));
     }
 }

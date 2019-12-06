@@ -32,8 +32,8 @@ public class MenuItemServiceTest {
         // given
         Shop shop = new Shop("어디야 커피");
         List<MenuItem> menus = Arrays.asList(
-                new MenuItem("아메리카노", "맛있는 아메리카노", 2500, shop),
-                new MenuItem("카페라떼", "고소한 라떼", 3000, shop)
+            new MenuItem("아메리카노", "맛있는 아메리카노", 2500, shop),
+            new MenuItem("카페라떼", "고소한 라떼", 3000, shop)
         );
 
         // when

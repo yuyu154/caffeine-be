@@ -20,17 +20,17 @@ public class MenuItemService {
 
     public List<MenuItemResponse> findByShopId(final long shopId) {
         return menuItemInternalService.findByShopId(shopId)
-                .stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
+            .stream()
+            .map(this::convertToResponse)
+            .collect(Collectors.toList());
     }
 
     private MenuItemResponse convertToResponse(final MenuItem menuItem) {
         return new MenuItemResponse(
-                menuItem.getId(),
-                menuItem.getName(),
-                menuItem.getDescription(),
-                menuItem.getPrice()
+            menuItem.getId(),
+            menuItem.getName(),
+            menuItem.getDescription(),
+            menuItem.getPrice()
         );
     }
 }
