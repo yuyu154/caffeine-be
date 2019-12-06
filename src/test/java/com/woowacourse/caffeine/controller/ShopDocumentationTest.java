@@ -49,8 +49,8 @@ public class ShopDocumentationTest {
     void create_shop() throws Exception {
         //given
         final ShopCreateRequest shopCreateRequest = new ShopCreateRequest();
-        shopCreateRequest.setName("새로운 가게");
-        final ShopResponse shopResponse = new ShopResponse(200L, "새로운 가게");
+        shopCreateRequest.setName("new store");
+        final ShopResponse shopResponse = new ShopResponse(200L, "new store");
         given(shopService.createShop(any())).willReturn(shopResponse);
 
         //when
@@ -67,7 +67,7 @@ public class ShopDocumentationTest {
                 getDocumentRequest(),
                 getDocumentResponse(),
                 requestFields(
-                    fieldWithPath("name").description("가게 이름")
+                    fieldWithPath("name").description("new store")
                 )));
     }
 
