@@ -1,7 +1,8 @@
-package com.woowacourse.caffeine.application;
+package com.woowacourse.caffeine.application.service;
 
 import com.woowacourse.caffeine.application.exception.ShopNotFoundException;
-import com.woowacourse.caffeine.application.object.ShopCreateRequest;
+import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
+import com.woowacourse.caffeine.application.service.ShopInternalService;
 import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.repository.ShopRepository;
 import org.junit.jupiter.api.Test;

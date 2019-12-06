@@ -1,9 +1,9 @@
 package com.woowacourse.caffeine.controller;
 
-import com.woowacourse.caffeine.application.MenuItemService;
-import com.woowacourse.caffeine.application.ShopService;
-import com.woowacourse.caffeine.application.object.ShopCreateRequest;
-import com.woowacourse.caffeine.application.object.ShopResponse;
+import com.woowacourse.caffeine.application.service.MenuItemService;
+import com.woowacourse.caffeine.application.service.ShopService;
+import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
+import com.woowacourse.caffeine.application.dto.ShopResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

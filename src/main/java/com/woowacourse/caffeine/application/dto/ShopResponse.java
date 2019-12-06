@@ -1,4 +1,4 @@
-package com.woowacourse.caffeine.application.object;
+package com.woowacourse.caffeine.application.dto;
 
 public class ShopResponse {
 

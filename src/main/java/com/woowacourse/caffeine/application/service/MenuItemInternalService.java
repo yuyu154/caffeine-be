@@ -1,4 +1,4 @@
-package com.woowacourse.caffeine.application;
+package com.woowacourse.caffeine.application.service;
 
 import com.woowacourse.caffeine.domain.MenuItem;
 import com.woowacourse.caffeine.domain.Shop;

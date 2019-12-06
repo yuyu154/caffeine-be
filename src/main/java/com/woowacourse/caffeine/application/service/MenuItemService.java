@@ -1,6 +1,6 @@
-package com.woowacourse.caffeine.application;
+package com.woowacourse.caffeine.application.service;
 
-import com.woowacourse.caffeine.application.object.MenuItemResponse;
+import com.woowacourse.caffeine.application.dto.MenuItemResponse;
 import com.woowacourse.caffeine.domain.MenuItem;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

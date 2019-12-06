@@ -1,7 +1,7 @@
-package com.woowacourse.caffeine.application;
+package com.woowacourse.caffeine.application.service;
 
 import com.woowacourse.caffeine.application.exception.ShopNotFoundException;
-import com.woowacourse.caffeine.application.object.ShopCreateRequest;
+import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.repository.ShopRepository;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ class ShopInternalService {
 
     private final ShopRepository shopRepository;
 
-    ShopInternalService(final ShopRepository shopRepository) {
+    public ShopInternalService(final ShopRepository shopRepository) {
         this.shopRepository = shopRepository;
     }
 
@@ -21,7 +21,7 @@ class ShopInternalService {
         return shopRepository.save(new Shop(request.getName()));
     }
 
-    Shop findById(final long id) {
+    public Shop findById(final long id) {
         return shopRepository.findById(id)
             .orElseThrow(() -> new ShopNotFoundException(id));
     }
