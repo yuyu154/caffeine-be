@@ -27,10 +27,6 @@ Request HTTP Example:
 
 include::{snippets}/shop-create/http-request.adoc[]
 
-Request Path Variable Example:
-
-include::{snippets}/shop-create/path-parameters.adoc[]
-
 Request Body Example:
 
 include::{snippets}/shop-create/request-body.adoc[]
