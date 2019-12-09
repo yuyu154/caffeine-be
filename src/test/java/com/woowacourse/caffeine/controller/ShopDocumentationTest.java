@@ -1,10 +1,10 @@
 package com.woowacourse.caffeine.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.caffeine.application.service.MenuItemService;
-import com.woowacourse.caffeine.application.service.ShopService;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.ShopResponse;
+import com.woowacourse.caffeine.application.service.MenuItemService;
+import com.woowacourse.caffeine.application.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +95,10 @@ public class ShopDocumentationTest {
                 ),
                 responseFields(
                     fieldWithPath("id").description("상점 아이디"),
-                    fieldWithPath("name").description("상점 이름")
+                    fieldWithPath("name").description("상점 이름"),
+                    fieldWithPath("image").description("Image URL"),
+                    fieldWithPath("address").description("Address"),
+                    fieldWithPath("phoneNumber").description("Phone Number")
                 )));
     }
 
