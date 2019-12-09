@@ -1,8 +1,7 @@
 package com.woowacourse.caffeine.application.service;
 
-import com.woowacourse.caffeine.application.exception.ShopNotFoundException;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
-import com.woowacourse.caffeine.application.service.ShopInternalService;
+import com.woowacourse.caffeine.application.exception.ShopNotFoundException;
 import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.repository.ShopRepository;
 import org.junit.jupiter.api.Test;
@@ -11,9 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
@@ -26,7 +28,7 @@ public class ShopInternalServiceTest {
     private ShopRepository shopRepository;
 
     @InjectMocks
-    private ShopInternalService shopService;
+    private ShopInternalService shopInternalService;
 
     @Test
     void create() {
@@ -37,7 +39,7 @@ public class ShopInternalServiceTest {
 
         // when
         when(shopRepository.save(any())).thenReturn(created);
-        Shop shop = shopService.createShop(request);
+        Shop shop = shopInternalService.createShop(request);
 
         // then
         assertThat(shop.getName()).isEqualTo(shopName);
@@ -68,6 +70,23 @@ public class ShopInternalServiceTest {
         when(shopRepository.findById(any())).thenThrow(new ShopNotFoundException(id));
 
         // then
-        assertThrows(ShopNotFoundException.class, () -> shopRepository.findById(id));
+        assertThrows(ShopNotFoundException.class, () -> shopInternalService.findById(id));
+    }
+
+    @Test
+    void findAll() {
+        //given
+        List<Shop> shops = new ArrayList<>();
+        shops.add(new Shop("shop1"));
+        shops.add(new Shop("shop2"));
+
+        //when
+        when(shopRepository.findAll()).thenReturn(shops);
+
+        //then
+        List<Shop> actual = shopInternalService.findAll();
+        assertNotNull(actual);
+        assertThat(actual.get(0).getName()).isEqualTo("shop1");
+        assertThat(actual.get(1).getName()).isEqualTo("shop2");
     }
 }

@@ -1,7 +1,7 @@
 package com.woowacourse.caffeine.application.dto;
 
 public class ShopResponse {
-    public long id;
+    public Long id;
     public String name;
 
     // image url
@@ -12,7 +12,7 @@ public class ShopResponse {
     public ShopResponse() {
     }
 
-    public ShopResponse(final long id, final String name) {
+    public ShopResponse(final Long id, final String name) {
         this.id = id;
         this.name = name;
     }
@@ -25,7 +25,7 @@ public class ShopResponse {
         this.phoneNumber = phoneNumber;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -33,7 +33,7 @@ public class ShopResponse {
         return name;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

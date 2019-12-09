@@ -8,6 +8,10 @@ public class ShopResponses {
     public ShopResponses() {
     }
 
+    public ShopResponses(final List<ShopResponse> shopResponses) {
+        this.shopResponses = shopResponses;
+    }
+
     public List<ShopResponse> getShopResponses() {
         return shopResponses;
     }
