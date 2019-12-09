@@ -1,6 +1,8 @@
 package com.woowacourse.caffeine.controller;
 
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
+import com.woowacourse.caffeine.application.dto.ShopResponse;
+import com.woowacourse.caffeine.application.dto.ShopResponses;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,11 @@ import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
+
 import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
@@ -60,5 +66,28 @@ public class ShopControllerTest {
             .expectStatus().isOk()
             .expectBody()
             .jsonPath("$").isArray();
+    }
+
+    @Test
+    @DisplayName("상점 목록 조회")
+    void findAllShops() {
+        //given
+        ShopResponse shopResponse1 = new ShopResponse(100, "어디야 커피 잠실점");
+        ShopResponse shopResponse2 = new ShopResponse(101, "어디야 커피 잠실점2");
+        ShopResponses shopResponses = new ShopResponses();
+        shopResponses.setShopResponses(Arrays.asList(shopResponse1, shopResponse2));
+
+        //when & then
+        final ShopResponses actual = webTestClient.get()
+            .uri(String.format("%s/", V1_SHOP))
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(ShopResponses.class)
+            .returnResult()
+            .getResponseBody();
+
+        assertNotNull(actual);
+        assertThat(actual.getShopResponses().get(0).getId()).isEqualTo(shopResponse1.getId());
+        assertThat(actual.getShopResponses().get(1).getId()).isEqualTo(shopResponse2.getId());
     }
 }

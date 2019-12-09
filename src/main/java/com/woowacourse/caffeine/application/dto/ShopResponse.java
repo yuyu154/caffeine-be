@@ -2,8 +2,11 @@ package com.woowacourse.caffeine.application.dto;
 
 public class ShopResponse {
 
-    public final long id;
-    public final String name;
+    public long id;
+    public String name;
+
+    public ShopResponse() {
+    }
 
     public ShopResponse(final long id, final String name) {
         this.id = id;
@@ -16,5 +19,13 @@ public class ShopResponse {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -1,5 +1,6 @@
 package com.woowacourse.caffeine.controller;
 
+import com.woowacourse.caffeine.application.dto.ShopResponses;
 import com.woowacourse.caffeine.application.service.MenuItemService;
 import com.woowacourse.caffeine.application.service.ShopService;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping(ShopController.V1_SHOP)
@@ -41,5 +43,15 @@ public class ShopController {
     @GetMapping("/{id}/menus")
     public ResponseEntity retrieveMenus(@PathVariable final long id) {
         return ResponseEntity.ok(menuItemService.findByShopId(id));
+    }
+
+    @GetMapping()
+    public ResponseEntity findAllShops() {
+        ShopResponse shopResponse1 = new ShopResponse(100, "어디야 커피 잠실점");
+        ShopResponse shopResponse2 = new ShopResponse(101, "어디야 커피 잠실점2");
+        ShopResponses shopResponses = new ShopResponses();
+        shopResponses.setShopResponses(Arrays.asList(shopResponse1, shopResponse2));
+
+        return ResponseEntity.ok(shopResponses);
     }
 }
