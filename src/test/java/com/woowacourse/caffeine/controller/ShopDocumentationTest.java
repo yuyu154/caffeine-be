@@ -3,6 +3,7 @@ package com.woowacourse.caffeine.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.ShopResponse;
+import com.woowacourse.caffeine.application.dto.ShopResponses;
 import com.woowacourse.caffeine.application.service.MenuItemService;
 import com.woowacourse.caffeine.application.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
@@ -117,11 +119,47 @@ public class ShopDocumentationTest {
         //then
         result.andExpect(status().isOk())
             .andDo(print())
-            .andDo(document("shop-list",
+            .andDo(document("shop-menu-list",
                 getDocumentRequest(),
                 getDocumentResponse(),
                 pathParameters(
                     parameterWithName("id").description("가게 아이디")
                 )));
+    }
+
+    @Test
+    @DisplayName("모든 상점 목록 조회 문서")
+    void find_all_shop() throws Exception {
+
+        //given
+        ShopResponse shopResponse1 = new ShopResponse(
+            100,
+            "어디야 커피 잠실점",
+            "https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true",
+            "서울특별시 송파구 석촌호수로 262 (송파동)",
+            "02-758-8693");
+        ShopResponse shopResponse2 = new ShopResponse(
+            101,
+            "석촌 호수",
+            "https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_%EC%86%A1%ED%8C%8C%EA%B5%AC%EC%B2%AD.jpeg?raw=true",
+            "서울특별시 송파구 오금로 142 (송파동)",
+            "02-421-3622");
+        ShopResponses shopResponses = new ShopResponses();
+        shopResponses.setShopResponses(Arrays.asList(shopResponse1, shopResponse2));
+        given(shopService.findAll()).willReturn(shopResponses);
+
+        //when
+        ResultActions result = mockMvc.perform(
+            RestDocumentationRequestBuilders.get(String.format("%s", V1_SHOP))
+        );
+
+        //then
+        result.andExpect(status().isOk())
+            .andDo(print())
+            .andDo(document("shop-list",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                pathParameters()
+            ));
     }
 }
