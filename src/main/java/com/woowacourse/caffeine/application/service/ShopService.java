@@ -36,7 +36,8 @@ public class ShopService {
         List<Shop> shops = shopInternalService.findAll();
         List<ShopResponse> shopResponses = new ArrayList<>();
         for (final Shop shop : shops) {
-            final ShopResponse shopResponse = new ShopResponse(shop.getId(), shop.getName());
+            final ShopResponse shopResponse =
+                new ShopResponse(shop.getId(), shop.getName(), shop.getImageUrl(), shop.getAddress(), shop.getPhoneNumber());
             shopResponses.add(shopResponse);
         }
         return new ShopResponses(shopResponses);

@@ -17,7 +17,7 @@ public class ShopResponse {
         this.name = name;
     }
 
-    public ShopResponse(long id, String name, String image, String address, String phoneNumber) {
+    public ShopResponse(final Long id, final String name, final String image, final String address, final String phoneNumber) {
         this.id = id;
         this.name = name;
         this.image = image;

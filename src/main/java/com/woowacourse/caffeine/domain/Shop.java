@@ -20,6 +20,12 @@ public class Shop {
 
     private String name;
 
+    private String imageUrl;
+
+    private String address;
+
+    private String phoneNumber;
+
     @OneToMany(mappedBy = "vendor")
     private List<MenuItem> menus = new ArrayList<>();
 
@@ -34,6 +40,18 @@ public class Shop {
         }
     }
 
+    public Shop(final String name, final String imageUrl, final String address, final String phoneNumber) {
+        this.name = name;
+
+        if (name.isEmpty()) {
+            throw new InvalidShopNameException(name);
+        }
+
+        this.imageUrl = imageUrl;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+
     public void addMenu(final MenuItem menu) {
         menus.add(menu);
     }
@@ -44,5 +62,17 @@ public class Shop {
 
     public String getName() {
         return name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }
