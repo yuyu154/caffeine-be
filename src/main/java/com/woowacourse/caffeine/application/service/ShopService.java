@@ -1,10 +1,10 @@
 package com.woowacourse.caffeine.application.service;
 
+import com.woowacourse.caffeine.application.converter.ShopConverter;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.ShopResponse;
 import com.woowacourse.caffeine.application.dto.ShopResponses;
 import com.woowacourse.caffeine.domain.Shop;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ public class ShopService {
     private final ShopInternalService shopInternalService;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private ShopConverter shopConverter;
 
     public ShopService(final ShopInternalService shopInternalService) {
         this.shopInternalService = shopInternalService;
@@ -28,22 +28,26 @@ public class ShopService {
 
     public ShopResponse createShop(final ShopCreateRequest request) {
         Shop shop = shopInternalService.createShop(request);
-        return modelMapper.map(shop, ShopResponse.class);
+        return convertToShopResponse(shop);
     }
 
     @Transactional(readOnly = true)
     public ShopResponse findById(final Long id) {
         Shop shop = shopInternalService.findById(id);
-        return modelMapper.map(shop, ShopResponse.class);
+        return convertToShopResponse(shop);
     }
 
     @Transactional(readOnly = true)
     public ShopResponses findAll() {
         List<Shop> shops = shopInternalService.findAll();
         List<ShopResponse> shopResponses = shops.stream()
-            .map(shop -> new ShopResponse(shop.getId(), shop.getName(), shop.getImage(), shop.getAddress(), shop.getPhoneNumber()))
+            .map(this::convertToShopResponse)
             .collect(toList());
 
         return new ShopResponses(shopResponses);
+    }
+
+    private ShopResponse convertToShopResponse(final Shop shop) {
+        return shopConverter.convertToDto(shop, ShopResponse.class);
     }
 }

@@ -1,5 +1,6 @@
 package com.woowacourse.caffeine.application.service;
 
+import com.woowacourse.caffeine.application.converter.ShopConverter;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.ShopResponse;
 import com.woowacourse.caffeine.application.dto.ShopResponses;
@@ -19,17 +20,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 
-@SpringBootTest(classes = ShopService.class)
+@SpringBootTest(classes = {ShopService.class, ShopConverter.class, ModelMapper.class})
 public class ShopServiceTest {
 
     @Autowired
-    ShopService shopService;
+    private ShopService shopService;
 
     @MockBean
-    ShopInternalService shopInternalService;
+    private ShopInternalService shopInternalService;
 
     @SpyBean
-    ModelMapper modelMapper;
+    private ShopConverter shopConverter;
 
     @Test
     void createShop() {
