@@ -10,10 +10,6 @@ public class ShopCreateRequest {
     public ShopCreateRequest() {
     }
 
-    public ShopCreateRequest(final String name) {
-        this.name = name;
-    }
-
     public ShopCreateRequest(final String name, final String image, final String address, final String phoneNumber) {
         this.name = name;
         this.image = image;
