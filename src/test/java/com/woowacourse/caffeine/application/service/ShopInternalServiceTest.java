@@ -3,6 +3,8 @@ package com.woowacourse.caffeine.application.service;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.exception.ShopNotFoundException;
 import com.woowacourse.caffeine.domain.Shop;
+import com.woowacourse.caffeine.mock.ShopRequestRepository;
+import com.woowacourse.caffeine.mock.ShopResponseRepository;
 import com.woowacourse.caffeine.repository.ShopRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,24 +35,27 @@ public class ShopInternalServiceTest {
     @Test
     void create() {
         // given
-        String shopName = "별다방";
-        ShopCreateRequest request = new ShopCreateRequest(shopName);
-        Shop created = spy(new Shop(shopName));
+        ShopCreateRequest shopCreateRequest = ShopRequestRepository.shopCreateRequest;
+        Shop createdShop =
+            spy(new Shop(
+                shopCreateRequest.getName(),
+                shopCreateRequest.getImage(),
+                shopCreateRequest.getAddress(),
+                shopCreateRequest.getPhoneNumber()));
 
         // when
-        when(shopRepository.save(any())).thenReturn(created);
-        Shop shop = shopInternalService.createShop(request);
+        when(shopRepository.save(any())).thenReturn(createdShop);
+        Shop shop = shopInternalService.createShop(shopCreateRequest);
 
         // then
-        assertThat(shop.getName()).isEqualTo(shopName);
+        assertThat(shop.getName()).isEqualTo(shopCreateRequest.getName());
     }
 
     @Test
     void find_by_id() {
         // given
         long id = 1;
-        String name = "별다방";
-        Shop willFound = new Shop(name);
+        Shop willFound = ShopResponseRepository.shop1;
 
         // when
         when(shopRepository.findById(id)).thenReturn(Optional.of(willFound));
@@ -58,7 +63,7 @@ public class ShopInternalServiceTest {
         // then
         Optional<Shop> maybeFound = shopRepository.findById(id);
         assertThat(maybeFound).isNotEmpty();
-        assertThat(maybeFound.get().getName()).isEqualTo(name);
+        assertThat(maybeFound.get().getName()).isEqualTo(willFound.getName());
     }
 
     @Test
@@ -77,8 +82,10 @@ public class ShopInternalServiceTest {
     void findAll() {
         //given
         List<Shop> shops = new ArrayList<>();
-        shops.add(new Shop("shop1"));
-        shops.add(new Shop("shop2"));
+        Shop shop1 = ShopResponseRepository.shop1;
+        Shop shop2 = ShopResponseRepository.shop2;
+        shops.add(shop1);
+        shops.add(shop2);
 
         //when
         when(shopRepository.findAll()).thenReturn(shops);
@@ -86,7 +93,7 @@ public class ShopInternalServiceTest {
         //then
         List<Shop> actual = shopInternalService.findAll();
         assertNotNull(actual);
-        assertThat(actual.get(0).getName()).isEqualTo("shop1");
-        assertThat(actual.get(1).getName()).isEqualTo("shop2");
+        assertThat(actual.get(0).getName()).isEqualTo(shop1.getName());
+        assertThat(actual.get(1).getName()).isEqualTo(shop2.getName());
     }
 }

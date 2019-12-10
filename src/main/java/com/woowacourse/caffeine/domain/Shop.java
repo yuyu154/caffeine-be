@@ -1,6 +1,7 @@
 package com.woowacourse.caffeine.domain;
 
 import com.woowacourse.caffeine.domain.exception.InvalidShopNameException;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +10,10 @@ import java.util.Objects;
 
 @Entity
 public class Shop {
+    private static final String DEFAULT_IMAGE =
+        "https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/" +
+            "starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true";
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,9 +49,17 @@ public class Shop {
             throw new InvalidShopNameException(name);
         }
 
-        this.imageUrl = imageUrl;
+        configImage(imageUrl);
         this.address = address;
         this.phoneNumber = phoneNumber;
+    }
+
+    private void configImage(final String imageUrl) {
+        if (StringUtils.isEmpty(imageUrl)) {
+            this.imageUrl = DEFAULT_IMAGE;
+            return;
+        }
+        this.imageUrl = imageUrl;
     }
 
     public void addMenu(final MenuItem menu) {
