@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,12 +26,17 @@ public class Shop {
     private Long id;
 
     @Column(nullable = false)
+    @NotNull
+    @NotBlank
     private String name;
 
-    private String imageUrl;
+    @NotNull
+    private String image;
 
+    @NotNull
     private String address;
 
+    @NotNull
     private String phoneNumber;
 
     @OneToMany(mappedBy = "vendor")
@@ -49,20 +56,20 @@ public class Shop {
         }
     }
 
-    public Shop(final String name, final String imageUrl, final String address, final String phoneNumber) {
+    public Shop(final String name, final String image, final String address, final String phoneNumber) {
         this.name = name;
         checkName(name);
-        configImage(imageUrl);
+        configImage(image);
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
 
     private void configImage(final String imageUrl) {
         if (StringUtils.isEmpty(imageUrl)) {
-            this.imageUrl = DEFAULT_IMAGE;
+            this.image = DEFAULT_IMAGE;
             return;
         }
-        this.imageUrl = imageUrl;
+        this.image = imageUrl;
     }
 
     public void addMenu(final MenuItem menu) {
@@ -77,8 +84,8 @@ public class Shop {
         return name;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage() {
+        return image;
     }
 
     public String getAddress() {

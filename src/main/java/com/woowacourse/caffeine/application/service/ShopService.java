@@ -31,7 +31,7 @@ public class ShopService {
     }
 
     @Transactional(readOnly = true)
-    public ShopResponse findById(final long id) {
+    public ShopResponse findById(final Long id) {
         Shop shop = shopInternalService.findById(id);
         return modelMapper.map(shop, ShopResponse.class);
     }
@@ -40,8 +40,9 @@ public class ShopService {
     public ShopResponses findAll() {
         List<Shop> shops = shopInternalService.findAll();
         List<ShopResponse> shopResponses = shops.stream()
-            .map(shop -> new ShopResponse(shop.getId(), shop.getName(), shop.getImageUrl(), shop.getAddress(), shop.getPhoneNumber()))
+            .map(shop -> new ShopResponse(shop.getId(), shop.getName(), shop.getImage(), shop.getAddress(), shop.getPhoneNumber()))
             .collect(toList());
+        
         return new ShopResponses(shopResponses);
     }
 }

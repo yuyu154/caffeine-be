@@ -1,8 +1,10 @@
 package com.woowacourse.caffeine.application.service;
 
+import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.ShopResponse;
 import com.woowacourse.caffeine.application.dto.ShopResponses;
 import com.woowacourse.caffeine.domain.Shop;
+import com.woowacourse.caffeine.mock.ShopRequestRepository;
 import com.woowacourse.caffeine.mock.ShopResponseRepository;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -28,6 +30,43 @@ public class ShopServiceTest {
 
     @SpyBean
     ModelMapper modelMapper;
+
+    @Test
+    void createShop() {
+        //given & when
+        final ShopCreateRequest shopCreateRequest = ShopRequestRepository.shopCreateRequest;
+        final Shop shop = new Shop(
+            shopCreateRequest.getName(),
+            shopCreateRequest.getImage(),
+            shopCreateRequest.getAddress(),
+            shopCreateRequest.getPhoneNumber());
+
+        given(shopInternalService.createShop(shopCreateRequest)).willReturn(shop);
+
+        //then
+        final ShopResponse shopResponse = shopService.createShop(shopCreateRequest);
+        assertThat(shopResponse.getName()).isEqualTo(shopCreateRequest.getName());
+        assertThat(shopResponse.getImage()).isEqualTo(shopCreateRequest.getImage());
+        assertThat(shopResponse.getAddress()).isEqualTo(shopCreateRequest.getAddress());
+        assertThat(shopResponse.getPhoneNumber()).isEqualTo(shopCreateRequest.getPhoneNumber());
+    }
+
+    @Test
+    void findById() {
+        //given & when
+        final Shop shop = ShopResponseRepository.shop1;
+        final Long shopId = shop.getId();
+
+        given(shopInternalService.findById(shopId)).willReturn(shop);
+
+        //then
+        final ShopResponse shopResponse = shopService.findById(shopId);
+        assertThat(shopResponse.getId()).isEqualTo(shop.getId());
+        assertThat(shopResponse.getName()).isEqualTo(shop.getName());
+        assertThat(shopResponse.getImage()).isEqualTo(shop.getImage());
+        assertThat(shopResponse.getAddress()).isEqualTo(shop.getAddress());
+        assertThat(shopResponse.getPhoneNumber()).isEqualTo(shop.getPhoneNumber());
+    }
 
     @Test
     void findAll() {

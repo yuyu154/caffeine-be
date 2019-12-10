@@ -28,7 +28,7 @@ class ShopInternalService {
                 shopCreateRequest.getPhoneNumber()));
     }
 
-    public Shop findById(final long id) {
+    public Shop findById(final Long id) {
         return shopRepository.findById(id)
             .orElseThrow(() -> new ShopNotFoundException(id));
     }
