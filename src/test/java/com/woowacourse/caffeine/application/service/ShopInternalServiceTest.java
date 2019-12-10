@@ -1,16 +1,19 @@
 package com.woowacourse.caffeine.application.service;
 
+import com.woowacourse.caffeine.application.converter.ShopConverter;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.exception.ShopNotFoundException;
 import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.mock.ShopRequestRepository;
 import com.woowacourse.caffeine.mock.ShopResponseRepository;
 import com.woowacourse.caffeine.repository.ShopRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,16 +34,18 @@ public class ShopInternalServiceTest {
     @InjectMocks
     private ShopInternalService shopInternalService;
 
+    private ShopConverter shopConverter;
+
+    @BeforeEach
+    void setUp() {
+        shopConverter = new ShopConverter(new ModelMapper());
+    }
+
     @Test
     void create() {
         // given
         ShopCreateRequest shopCreateRequest = ShopRequestRepository.shopCreateRequest;
-        Shop createdShop =
-            spy(new Shop(
-                shopCreateRequest.getName(),
-                shopCreateRequest.getImage(),
-                shopCreateRequest.getAddress(),
-                shopCreateRequest.getPhoneNumber()));
+        Shop createdShop = shopConverter.convertToShop(shopCreateRequest);
 
         // when
         when(shopRepository.save(any())).thenReturn(createdShop);
