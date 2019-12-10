@@ -82,7 +82,7 @@ public class ShopDocumentationTest {
         given(shopService.findById(id)).willReturn(shopResponse);
 
         //when
-        ResultActions result = mockMvc.perform(
+        final ResultActions result = mockMvc.perform(
             RestDocumentationRequestBuilders.get(String.format("%s/{id}", V1_SHOP), id)
         );
 
@@ -112,7 +112,7 @@ public class ShopDocumentationTest {
         given(menuItemService.findByShopId(DEFAULT_SHOP_ID)).willReturn(Collections.emptyList());
 
         //when
-        ResultActions result = mockMvc.perform(
+        final ResultActions result = mockMvc.perform(
             RestDocumentationRequestBuilders.get(String.format("%s/{id}/menus", V1_SHOP), DEFAULT_SHOP_ID)
         );
 

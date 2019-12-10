@@ -1,8 +1,8 @@
 package com.woowacourse.caffeine.application.dto;
 
 public class ShopResponse {
-    public Long id;
-    public String name;
+    private Long id;
+    private String name;
 
     // image url
     private String image;
@@ -10,11 +10,6 @@ public class ShopResponse {
     private String phoneNumber;
 
     public ShopResponse() {
-    }
-
-    public ShopResponse(final Long id, final String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public ShopResponse(final Long id, final String name, final String image, final String address, final String phoneNumber) {

@@ -33,7 +33,8 @@ public class ShopController {
     public ResponseEntity createShop(@RequestBody final ShopCreateRequest request) {
         ShopResponse createdShop = shopService.createShop(request);
         logger.debug("Create Shop {}", createdShop);
-        return ResponseEntity.created(URI.create(V1_SHOP + "/" + createdShop.id))
+
+        return ResponseEntity.created(URI.create(V1_SHOP + "/" + createdShop.getId()))
             .build();
     }
 
@@ -41,6 +42,7 @@ public class ShopController {
     public ResponseEntity retrieveShop(@PathVariable final long id) {
         ShopResponse foundedShopResponse = shopService.findById(id);
         logger.debug("Founded ShopResponse: {}", foundedShopResponse);
+
         return ResponseEntity.ok(foundedShopResponse);
     }
 
@@ -48,6 +50,7 @@ public class ShopController {
     public ResponseEntity retrieveMenus(@PathVariable final long id) {
         List<MenuItemResponse> menuItemResponses = menuItemService.findByShopId(id);
         logger.debug("Menus Of Shop({}) : {}", menuItemResponses, id);
+
         return ResponseEntity.ok(menuItemResponses);
     }
 
@@ -55,6 +58,7 @@ public class ShopController {
     public ResponseEntity findAllShops() {
         ShopResponses shopResponses = shopService.findAll();
         logger.debug("ShopResponses: {}", shopResponses);
+
         return ResponseEntity.ok(shopResponses);
     }
 }

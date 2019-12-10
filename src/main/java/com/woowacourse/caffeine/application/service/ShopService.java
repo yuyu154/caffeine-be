@@ -22,13 +22,23 @@ public class ShopService {
 
     public ShopResponse createShop(final ShopCreateRequest request) {
         Shop shop = shopInternalService.createShop(request);
-        return new ShopResponse(shop.getId(), shop.getName());
+        return new ShopResponse(
+            shop.getId(),
+            shop.getName(),
+            shop.getImageUrl(),
+            shop.getAddress(),
+            shop.getPhoneNumber());
     }
 
     @Transactional(readOnly = true)
     public ShopResponse findById(final long id) {
         Shop shop = shopInternalService.findById(id);
-        return new ShopResponse(shop.getId(), shop.getName());
+        return new ShopResponse(
+            shop.getId(),
+            shop.getName(),
+            shop.getImageUrl(),
+            shop.getAddress(),
+            shop.getPhoneNumber());
     }
 
     @Transactional(readOnly = true)
