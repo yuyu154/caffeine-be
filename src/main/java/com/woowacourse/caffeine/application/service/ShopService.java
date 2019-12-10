@@ -17,9 +17,10 @@ import static java.util.stream.Collectors.toList;
 @Transactional
 public class ShopService {
 
+    private final ShopInternalService shopInternalService;
+
     @Autowired
     private ModelMapper modelMapper;
-    private final ShopInternalService shopInternalService;
 
     public ShopService(final ShopInternalService shopInternalService) {
         this.shopInternalService = shopInternalService;
@@ -42,7 +43,7 @@ public class ShopService {
         List<ShopResponse> shopResponses = shops.stream()
             .map(shop -> new ShopResponse(shop.getId(), shop.getName(), shop.getImage(), shop.getAddress(), shop.getPhoneNumber()))
             .collect(toList());
-        
+
         return new ShopResponses(shopResponses);
     }
 }
