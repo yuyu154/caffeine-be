@@ -50,7 +50,7 @@ public class Shop {
         checkName(name);
     }
 
-    private void checkName(String name) {
+    private void checkName(final String name) {
         if (name.isEmpty()) {
             throw new InvalidShopNameException(name);
         }
