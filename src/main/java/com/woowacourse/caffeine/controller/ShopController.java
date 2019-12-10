@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(ShopController.V1_SHOP)
 public class ShopController {
+
     public static final String V1_SHOP = "/v1/shop";
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
 
@@ -50,7 +51,7 @@ public class ShopController {
         return ResponseEntity.ok(menuItemResponses);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity findAllShops() {
         ShopResponses shopResponses = shopService.findAll();
         logger.debug("ShopResponses: {}", shopResponses);
