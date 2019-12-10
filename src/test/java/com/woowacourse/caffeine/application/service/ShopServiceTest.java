@@ -4,9 +4,11 @@ import com.woowacourse.caffeine.application.dto.ShopResponse;
 import com.woowacourse.caffeine.application.dto.ShopResponses;
 import com.woowacourse.caffeine.domain.Shop;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.util.Arrays;
 
@@ -23,6 +25,8 @@ public class ShopServiceTest {
     @MockBean
     ShopInternalService shopInternalService;
 
+    @SpyBean
+    ModelMapper modelMapper;
 
     @Test
     void findAll() {

@@ -66,4 +66,6 @@ dependencies {
 	}
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
+
+	implementation 'org.modelmapper:modelmapper:2.3.0'
 }
