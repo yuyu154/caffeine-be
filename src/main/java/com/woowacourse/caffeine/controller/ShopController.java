@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping(ShopController.V1_SHOP)
 public class ShopController {
 
-    public static final String V1_SHOP = "/v1/shop";
+    public static final String V1_SHOP = "/v1/shops";
     private static final Logger logger = LoggerFactory.getLogger(ShopController.class);
 
     private final ShopService shopService;
