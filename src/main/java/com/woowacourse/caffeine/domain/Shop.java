@@ -3,7 +3,12 @@ package com.woowacourse.caffeine.domain;
 import com.woowacourse.caffeine.domain.exception.InvalidShopNameException;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +18,6 @@ public class Shop {
     private static final String DEFAULT_IMAGE =
         "https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/" +
             "starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true";
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +40,10 @@ public class Shop {
 
     public Shop(final String name) {
         this.name = Objects.requireNonNull(name);
+        checkName(name);
+    }
 
+    private void checkName(String name) {
         if (name.isEmpty()) {
             throw new InvalidShopNameException(name);
         }
@@ -44,11 +51,7 @@ public class Shop {
 
     public Shop(final String name, final String imageUrl, final String address, final String phoneNumber) {
         this.name = name;
-
-        if (name.isEmpty()) {
-            throw new InvalidShopNameException(name);
-        }
-
+        checkName(name);
         configImage(imageUrl);
         this.address = address;
         this.phoneNumber = phoneNumber;

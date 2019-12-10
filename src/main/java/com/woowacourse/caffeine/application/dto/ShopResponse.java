@@ -3,8 +3,6 @@ package com.woowacourse.caffeine.application.dto;
 public class ShopResponse {
     private Long id;
     private String name;
-
-    // image url
     private String image;
     private String address;
     private String phoneNumber;
@@ -28,35 +26,15 @@ public class ShopResponse {
         return name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getImage() {
         return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 }

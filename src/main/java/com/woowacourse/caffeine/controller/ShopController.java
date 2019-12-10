@@ -9,7 +9,12 @@ import com.woowacourse.caffeine.application.service.ShopService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;
@@ -38,18 +43,18 @@ public class ShopController {
             .build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity retrieveShop(@PathVariable final long id) {
-        ShopResponse foundedShopResponse = shopService.findById(id);
-        logger.debug("Founded ShopResponse: {}", foundedShopResponse);
+    @GetMapping("/{shopId}")
+    public ResponseEntity retrieveShop(@PathVariable final long shopId) {
+        ShopResponse foundShopResponse = shopService.findById(shopId);
+        logger.debug("Founded ShopResponse: {}", foundShopResponse);
 
-        return ResponseEntity.ok(foundedShopResponse);
+        return ResponseEntity.ok(foundShopResponse);
     }
 
-    @GetMapping("/{id}/menus")
-    public ResponseEntity retrieveMenus(@PathVariable final long id) {
-        List<MenuItemResponse> menuItemResponses = menuItemService.findByShopId(id);
-        logger.debug("Menus Of Shop({}) : {}", menuItemResponses, id);
+    @GetMapping("/{shopId}/menus")
+    public ResponseEntity retrieveMenus(@PathVariable final long shopId) {
+        List<MenuItemResponse> menuItemResponses = menuItemService.findByShopId(shopId);
+        logger.debug("Menus Of Shop({}) : {}", menuItemResponses, shopId);
 
         return ResponseEntity.ok(menuItemResponses);
     }
