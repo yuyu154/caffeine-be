@@ -18,12 +18,11 @@ import static java.util.stream.Collectors.toList;
 public class ShopService {
 
     private final ShopInternalService shopInternalService;
+    private final ShopConverter shopConverter;
 
-    @Autowired
-    private ShopConverter shopConverter;
-
-    public ShopService(final ShopInternalService shopInternalService) {
+    public ShopService(final ShopInternalService shopInternalService, final ShopConverter shopConverter) {
         this.shopInternalService = shopInternalService;
+        this.shopConverter = shopConverter;
     }
 
     public ShopResponse createShop(final ShopCreateRequest request) {
