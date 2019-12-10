@@ -27,20 +27,20 @@ public class ShopService {
     }
 
     public ShopResponse createShop(final ShopCreateRequest request) {
-        Shop shop = shopInternalService.createShop(request);
+        final Shop shop = shopInternalService.createShop(request);
         return convertToShopResponse(shop);
     }
 
     @Transactional(readOnly = true)
     public ShopResponse findById(final Long id) {
-        Shop shop = shopInternalService.findById(id);
+        final Shop shop = shopInternalService.findById(id);
         return convertToShopResponse(shop);
     }
 
     @Transactional(readOnly = true)
     public ShopResponses findAll() {
-        List<Shop> shops = shopInternalService.findAll();
-        List<ShopResponse> shopResponses = shops.stream()
+        final List<Shop> shops = shopInternalService.findAll();
+        final List<ShopResponse> shopResponses = shops.stream()
             .map(this::convertToShopResponse)
             .collect(toList());
 
