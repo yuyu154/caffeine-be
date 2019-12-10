@@ -1,10 +1,12 @@
 package com.woowacourse.caffeine.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.caffeine.application.service.MenuItemService;
-import com.woowacourse.caffeine.application.service.ShopService;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.ShopResponse;
+import com.woowacourse.caffeine.application.dto.ShopResponses;
+import com.woowacourse.caffeine.application.service.MenuItemService;
+import com.woowacourse.caffeine.application.service.ShopService;
+import com.woowacourse.caffeine.mock.ShopResponseRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,8 @@ import static com.woowacourse.caffeine.utils.ApiDocumentUtils.getDocumentRespons
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -48,9 +51,13 @@ public class ShopDocumentationTest {
     @DisplayName("상점 생성 문서")
     void create_shop() throws Exception {
         //given
-        final ShopCreateRequest shopCreateRequest = new ShopCreateRequest();
-        shopCreateRequest.setName("새로운 가게");
-        final ShopResponse shopResponse = new ShopResponse(200L, "새로운 가게");
+        final ShopResponse shopResponse = ShopResponseRepository.shopResponse1;
+        final ShopCreateRequest shopCreateRequest = new ShopCreateRequest(
+            shopResponse.getName(),
+            shopResponse.getImage(),
+            shopResponse.getAddress(),
+            shopResponse.getPhoneNumber()
+        );
         given(shopService.createShop(any())).willReturn(shopResponse);
 
         //when
@@ -65,10 +72,7 @@ public class ShopDocumentationTest {
             .andDo(print())
             .andDo(document("shop-create",
                 getDocumentRequest(),
-                getDocumentResponse(),
-                requestFields(
-                    fieldWithPath("name").description("가게 이름")
-                )));
+                getDocumentResponse()));
     }
 
     @Test
@@ -76,11 +80,11 @@ public class ShopDocumentationTest {
     void retrieve_shop() throws Exception {
         //given
         final long id = 100L;
-        ShopResponse shopResponse = new ShopResponse(id, "가게1");
+        ShopResponse shopResponse = ShopResponseRepository.shopResponse1;
         given(shopService.findById(id)).willReturn(shopResponse);
 
         //when
-        ResultActions result = mockMvc.perform(
+        final ResultActions result = mockMvc.perform(
             RestDocumentationRequestBuilders.get(String.format("%s/{id}", V1_SHOP), id)
         );
 
@@ -95,7 +99,10 @@ public class ShopDocumentationTest {
                 ),
                 responseFields(
                     fieldWithPath("id").description("상점 아이디"),
-                    fieldWithPath("name").description("상점 이름")
+                    fieldWithPath("name").description("상점 이름"),
+                    fieldWithPath("image").description("Image URL"),
+                    fieldWithPath("address").description("Address"),
+                    fieldWithPath("phoneNumber").description("Phone Number")
                 )));
     }
 
@@ -107,18 +114,41 @@ public class ShopDocumentationTest {
         given(menuItemService.findByShopId(DEFAULT_SHOP_ID)).willReturn(Collections.emptyList());
 
         //when
-        ResultActions result = mockMvc.perform(
+        final ResultActions result = mockMvc.perform(
             RestDocumentationRequestBuilders.get(String.format("%s/{id}/menus", V1_SHOP), DEFAULT_SHOP_ID)
         );
 
         //then
         result.andExpect(status().isOk())
             .andDo(print())
-            .andDo(document("shop-list",
+            .andDo(document("shop-menu-list",
                 getDocumentRequest(),
                 getDocumentResponse(),
                 pathParameters(
                     parameterWithName("id").description("가게 아이디")
                 )));
+    }
+
+    @Test
+    @DisplayName("모든 상점 목록 조회 문서")
+    void find_all_shop() throws Exception {
+
+        //given & when
+        ShopResponses shopResponses = ShopResponseRepository.shopResponses;
+
+        given(shopService.findAll()).willReturn(shopResponses);
+
+        //then
+        ResultActions result = mockMvc.perform(
+            RestDocumentationRequestBuilders.get(String.format("%s", V1_SHOP))
+        );
+
+        result.andExpect(status().isOk())
+            .andDo(print())
+            .andDo(document("shop-list",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                pathParameters()
+            ));
     }
 }

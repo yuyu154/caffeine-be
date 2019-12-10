@@ -1,7 +1,5 @@
 package com.woowacourse.caffeine.application.service;
 
-import com.woowacourse.caffeine.application.service.MenuItemService;
-import com.woowacourse.caffeine.application.service.ShopInternalService;
 import com.woowacourse.caffeine.domain.MenuItem;
 import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.repository.MenuItemRepository;
