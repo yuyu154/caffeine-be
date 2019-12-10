@@ -33,14 +33,19 @@ public class ShopControllerTest {
     @DisplayName("상점 생성")
     void create_shop() {
         // given
-        String name = "어디야 커피";
-        ShopCreateRequest request = new ShopCreateRequest(name);
+        ShopResponse shopResponse = ShopResponseRepository.shopResponse1;
+        ShopCreateRequest shopCreateRequest =
+            new ShopCreateRequest(
+                shopResponse.getName(),
+                shopResponse.getImage(),
+                shopResponse.getAddress(),
+                shopResponse.getPhoneNumber());
 
         // when
         EntityExchangeResult<byte[]> response = webTestClient.post()
             .uri(V1_SHOP)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(request), ShopCreateRequest.class)
+            .body(Mono.just(shopCreateRequest), ShopCreateRequest.class)
             .exchange()
             .expectStatus().isCreated()
             .expectHeader()
@@ -54,7 +59,10 @@ public class ShopControllerTest {
             .expectStatus().isOk()
             .expectBody()
             .jsonPath("$.id").isNotEmpty()
-            .jsonPath("$.name").isEqualTo(name);
+            .jsonPath("$.name").isEqualTo(shopResponse.getName())
+            .jsonPath("$.image").isEqualTo(shopResponse.getImage())
+            .jsonPath("$.address").isEqualTo(shopResponse.getAddress())
+            .jsonPath("$.phoneNumber").isEqualTo(shopResponse.getPhoneNumber());
     }
 
     @Test

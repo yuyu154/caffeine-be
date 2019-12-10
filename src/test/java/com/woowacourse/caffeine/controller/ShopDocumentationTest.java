@@ -50,9 +50,13 @@ public class ShopDocumentationTest {
     @DisplayName("상점 생성 문서")
     void create_shop() throws Exception {
         //given
-        final ShopCreateRequest shopCreateRequest = new ShopCreateRequest();
-        shopCreateRequest.setName("new store");
         final ShopResponse shopResponse = ShopResponseRepository.shopResponse1;
+        final ShopCreateRequest shopCreateRequest = new ShopCreateRequest(
+            shopResponse.getName(),
+            shopResponse.getImage(),
+            shopResponse.getAddress(),
+            shopResponse.getPhoneNumber()
+        );
         given(shopService.createShop(any())).willReturn(shopResponse);
 
         //when
@@ -67,10 +71,7 @@ public class ShopDocumentationTest {
             .andDo(print())
             .andDo(document("shop-create",
                 getDocumentRequest(),
-                getDocumentResponse(),
-                requestFields(
-                    fieldWithPath("name").description("new store")
-                )));
+                getDocumentResponse()));
     }
 
     @Test
@@ -132,8 +133,6 @@ public class ShopDocumentationTest {
     void find_all_shop() throws Exception {
 
         //given & when
-        ShopResponse shopResponse1 = ShopResponseRepository.shopResponse1;
-        ShopResponse shopResponse2 = ShopResponseRepository.shopResponse2;
         ShopResponses shopResponses = ShopResponseRepository.shopResponses;
 
         given(shopService.findAll()).willReturn(shopResponses);

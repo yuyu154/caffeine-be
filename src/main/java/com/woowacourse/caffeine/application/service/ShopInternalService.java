@@ -19,8 +19,13 @@ class ShopInternalService {
         this.shopRepository = shopRepository;
     }
 
-    public Shop createShop(final ShopCreateRequest request) {
-        return shopRepository.save(new Shop(request.getName()));
+    public Shop createShop(final ShopCreateRequest shopCreateRequest) {
+        return shopRepository.save(
+            new Shop(
+                shopCreateRequest.getName(),
+                shopCreateRequest.getImage(),
+                shopCreateRequest.getAddress(),
+                shopCreateRequest.getPhoneNumber()));
     }
 
     public Shop findById(final long id) {
