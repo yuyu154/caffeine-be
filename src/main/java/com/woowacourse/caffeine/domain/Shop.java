@@ -1,5 +1,6 @@
 package com.woowacourse.caffeine.domain;
 
+import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.domain.exception.InvalidShopNameException;
 import org.springframework.util.StringUtils;
 
@@ -50,12 +51,6 @@ public class Shop {
         checkName(name);
     }
 
-    private void checkName(final String name) {
-        if (name.isEmpty()) {
-            throw new InvalidShopNameException(name);
-        }
-    }
-
     public Shop(final String name, final String image, final String address, final String phoneNumber) {
         this.name = name;
         checkName(name);
@@ -64,12 +59,26 @@ public class Shop {
         this.phoneNumber = phoneNumber;
     }
 
+    private void checkName(final String name) {
+        if (name.isEmpty()) {
+            throw new InvalidShopNameException(name);
+        }
+    }
+
     private void configImage(final String imageUrl) {
         if (StringUtils.isEmpty(imageUrl)) {
             this.image = DEFAULT_IMAGE;
             return;
         }
         this.image = imageUrl;
+    }
+
+    public static Shop create(final ShopCreateRequest shopCreateRequest) {
+        return new Shop(
+            shopCreateRequest.getName(),
+            shopCreateRequest.getImage(),
+            shopCreateRequest.getAddress(),
+            shopCreateRequest.getPhoneNumber());
     }
 
     public void addMenu(final MenuItem menu) {

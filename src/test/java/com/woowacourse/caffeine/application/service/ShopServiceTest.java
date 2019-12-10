@@ -36,7 +36,7 @@ public class ShopServiceTest {
     void createShop() {
         //given & when
         final ShopCreateRequest shopCreateRequest = ShopRequestRepository.shopCreateRequest;
-        final Shop shop = shopConverter.convertToShop(shopCreateRequest);
+        final Shop shop = Shop.create(shopCreateRequest);
 
         given(shopInternalService.createShop(shopCreateRequest)).willReturn(shop);
 

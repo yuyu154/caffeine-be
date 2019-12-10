@@ -45,7 +45,7 @@ public class ShopConverterTest {
         final ShopCreateRequest shopCreateRequest = ShopRequestRepository.shopCreateRequest;
 
         // then
-        final Shop shop = shopConverter.convertToShop(shopCreateRequest);
+        final Shop shop = Shop.create(shopCreateRequest);
         assertThat(shop.getName()).isEqualTo(shopCreateRequest.getName());
         assertThat(shop.getImage()).isEqualTo(shopCreateRequest.getImage());
         assertThat(shop.getAddress()).isEqualTo(shopCreateRequest.getAddress());

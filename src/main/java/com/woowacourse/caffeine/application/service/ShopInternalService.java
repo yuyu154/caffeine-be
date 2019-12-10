@@ -20,12 +20,7 @@ class ShopInternalService {
     }
 
     public Shop createShop(final ShopCreateRequest shopCreateRequest) {
-        return shopRepository.save(
-            new Shop(
-                shopCreateRequest.getName(),
-                shopCreateRequest.getImage(),
-                shopCreateRequest.getAddress(),
-                shopCreateRequest.getPhoneNumber()));
+        return shopRepository.save(Shop.create(shopCreateRequest));
     }
 
     public Shop findById(final Long id) {

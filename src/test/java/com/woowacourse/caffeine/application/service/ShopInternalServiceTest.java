@@ -45,7 +45,7 @@ public class ShopInternalServiceTest {
     void create() {
         // given
         ShopCreateRequest shopCreateRequest = ShopRequestRepository.shopCreateRequest;
-        Shop createdShop = shopConverter.convertToShop(shopCreateRequest);
+        Shop createdShop = Shop.create(shopCreateRequest);
 
         // when
         when(shopRepository.save(any())).thenReturn(createdShop);
