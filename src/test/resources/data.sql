@@ -5,5 +5,6 @@ INSERT INTO shop(id, name, image, address, phone_number) VALUES(101, '석촌호�
 'https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_%EC%86%A1%ED%8C%8C%EA%B5%AC%EC%B2%AD.jpeg?raw=true',
 '서울특별시 송파구 오금로 142 (송파동)','02-421-3622');
 
-INSERT INTO menu_item(name, description, price, shop_id) VALUES('카페라떼', '고소한 카페라떼', 3000, 100);
-INSERT INTO menu_item(name, description, price, shop_id) VALUES('고구마라떼', '달달한 라떼', 3000, 100);
+INSERT INTO menu_item(id ,name, description, price, shop_id) VALUES(987654321L,'카페라떼', '고소한 카페라떼', 3000, 100);
+INSERT INTO menu_item(id, name, description, price, shop_id) VALUES(987654322L, '고구마라떼', '달달한 라떼', 3000, 100);
+INSERT INTO menu_item(id, name, description, price, shop_id) VALUES(987654323L, '얼음물', '시원한 물', 100000, 100);
