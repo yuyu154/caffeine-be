@@ -1,8 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.1.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id "org.asciidoctor.convert" version "1.5.10"
-	id 'java'
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id "org.asciidoctor.convert" version "1.5.10"
+    id 'java'
+    id 'jacoco'
 }
 
 group = 'com.woowacourse'
@@ -10,12 +11,12 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 ext {
-	snippetsDir = file('build/generated-snippets')
+    snippetsDir = file('build/generated-snippets')
 }
 
 asciidoctor {
-	inputs.dir snippetsDir
-	dependsOn	 test
+    inputs.dir snippetsDir
+    dependsOn test
 }
 
 bootJar {
@@ -26,30 +27,30 @@ bootJar {
 }
 
 test {
-	useJUnitPlatform()
-	outputs.dir snippetsDir
+    useJUnitPlatform()
+    outputs.dir snippetsDir
 }
 
 task copyDocument(type: Copy) {
-	dependsOn asciidoctor
+    dependsOn asciidoctor
 
-	from file("build/asciidoc/html5/")
-	into file("src/main/resources/static/docs")
+    from file("build/asciidoc/html5/")
+    into file("src/main/resources/static/docs")
 }
 
 build {
-	dependsOn copyDocument
+    dependsOn copyDocument
 }
 
 configurations {
-	developmentOnly
-	runtimeClasspath {
-		extendsFrom developmentOnly
-	}
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
@@ -69,4 +70,13 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
 	implementation 'org.modelmapper:modelmapper:2.3.0'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        xml.destination file("${buildDir}/reports/jacoco/report.xml")
+        csv.enabled false
+        html.enabled false
+    }
 }
