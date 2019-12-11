@@ -3,6 +3,7 @@ package com.woowacourse.caffeine.application.dto;
 import java.util.List;
 
 public class ShopResponses {
+
     private List<ShopResponse> shopResponses;
 
     public ShopResponses() {

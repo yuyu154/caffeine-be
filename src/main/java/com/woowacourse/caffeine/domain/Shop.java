@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Shop {
+public class Shop extends BaseTimeEntity {
     private static final String DEFAULT_IMAGE =
         "https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/" +
             "starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true";
@@ -59,6 +59,14 @@ public class Shop {
         this.phoneNumber = phoneNumber;
     }
 
+    public static Shop create(final ShopCreateRequest shopCreateRequest) {
+        return new Shop(
+            shopCreateRequest.getName(),
+            shopCreateRequest.getImage(),
+            shopCreateRequest.getAddress(),
+            shopCreateRequest.getPhoneNumber());
+    }
+
     private void checkName(final String name) {
         if (name.isEmpty()) {
             throw new InvalidShopNameException(name);
@@ -71,14 +79,6 @@ public class Shop {
             return;
         }
         this.image = imageUrl;
-    }
-
-    public static Shop create(final ShopCreateRequest shopCreateRequest) {
-        return new Shop(
-            shopCreateRequest.getName(),
-            shopCreateRequest.getImage(),
-            shopCreateRequest.getAddress(),
-            shopCreateRequest.getPhoneNumber());
     }
 
     public void addMenu(final MenuItem menu) {

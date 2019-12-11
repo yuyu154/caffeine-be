@@ -44,7 +44,7 @@ public class ShopController {
     }
 
     @GetMapping("/{shopId}")
-    public ResponseEntity retrieveShop(@PathVariable final long shopId) {
+    public ResponseEntity findShop(@PathVariable final long shopId) {
         ShopResponse foundShopResponse = shopService.findById(shopId);
         logger.debug("Founded ShopResponse: {}", foundShopResponse);
 
@@ -52,7 +52,7 @@ public class ShopController {
     }
 
     @GetMapping("/{shopId}/menus")
-    public ResponseEntity retrieveMenus(@PathVariable final long shopId) {
+    public ResponseEntity findMenus(@PathVariable final long shopId) {
         List<MenuItemResponse> menuItemResponses = menuItemService.findByShopId(shopId);
         logger.debug("Menus Of Shop({}) : {}", menuItemResponses, shopId);
 

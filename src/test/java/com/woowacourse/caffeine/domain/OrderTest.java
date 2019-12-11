@@ -1,34 +1,52 @@
 package com.woowacourse.caffeine.domain;
 
-import com.woowacourse.caffeine.repository.OrderRepository;
+import com.woowacourse.caffeine.domain.exception.InvalidOrderChangeException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.assertj.core.api.Assertions.assertThat;
+class OrderTest {
 
-@SpringBootTest
-public class OrderTest {
+    String name;
+    String nameInEnglish;
+    String description;
+    int price;
+    String img;
+    String category;
+    Shop shop;
 
-    @Autowired
-    OrderRepository orderRepository;
+    @BeforeEach
+    void setUp() {
+        name = "아메리카노";
+        nameInEnglish = "Americano";
+        description = "아메리카노 좋아~ 좋아~ 좋아";
+        price = 2500;
+        img = "abc";
+        category = "coffee";
+        shop = new Shop("어디야 커피");
+    }
 
     @Test
-    public void BaseTimeEntity_등록() {
-        //given
-        LocalDateTime now = LocalDateTime.of(2019, 12, 6, 0, 0, 0);
-        orderRepository.save(new Order());
+    void changeStatusPendingToInProgress() {
+        final MenuItem menuItem = new MenuItem(name, nameInEnglish, description, price, img, category, shop);
+        final Order order = Order.createOrder(menuItem);
+        order.changeStatus(OrderStatus.IN_PROGRESS);
+    }
 
-        //when
-        List<Order> orders = orderRepository.findAll();
+    @Test
+    void changeStatusInProgressToFinished() {
+        final MenuItem menuItem = new MenuItem(name, nameInEnglish, description, price, img, category, shop);
+        final Order order = Order.createOrder(menuItem);
+        assertDoesNotThrow(() -> order.changeStatus(OrderStatus.IN_PROGRESS));
+        assertDoesNotThrow(() -> order.changeStatus(OrderStatus.FINISHED));
+    }
 
-        //then
-        Order order = orders.get(0);
-
-        assertThat(order.getCreatedDate()).isAfter(now);
-        assertThat(order.getModifiedDate()).isAfter(now);
+    @Test
+    void changeStatusException() {
+        final MenuItem menuItem = new MenuItem(name, nameInEnglish, description, price, img, category, shop);
+        final Order order = Order.createOrder(menuItem);
+        assertThrows(InvalidOrderChangeException.class, () -> order.changeStatus(OrderStatus.FINISHED));
     }
 }

@@ -1,10 +1,9 @@
 package com.woowacourse.caffeine.domain;
 
-import com.woowacourse.caffeine.domain.exception.InvalidMenuItemNameException;
-import com.woowacourse.caffeine.domain.exception.InvalidMenuItemPriceException;
-
 import com.woowacourse.caffeine.application.dto.MenuItemUpdateRequest;
+import com.woowacourse.caffeine.domain.exception.InvalidMenuItemNameException;
 import com.woowacourse.caffeine.domain.exception.InvalidMenuItemNameInEnglishException;
+import com.woowacourse.caffeine.domain.exception.InvalidMenuItemPriceException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,7 @@ import java.util.regex.Pattern;
 @Setter
 @Getter
 @Entity
-public class MenuItem {
+public class MenuItem extends BaseTimeEntity {
 
     public static final int PRICE_MIN_INCLUSIVE = 0;
     public static final String ENGLISH_REGEX = "^[a-zA-Z0-9 ]*$";
