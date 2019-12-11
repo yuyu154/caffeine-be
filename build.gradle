@@ -18,6 +18,13 @@ asciidoctor {
 	dependsOn	 test
 }
 
+bootJar {
+	dependsOn asciidoctor
+	from ("${asciidoctor.outputDir}/html5") {
+		into 'static/docs'
+	}
+}
+
 test {
 	useJUnitPlatform()
 	outputs.dir snippetsDir
@@ -59,4 +66,5 @@ dependencies {
 	}
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.mockito:mockito-junit-jupiter:3.1.0'
+	implementation 'org.modelmapper:modelmapper:2.3.0'
 }
