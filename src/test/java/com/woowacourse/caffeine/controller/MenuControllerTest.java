@@ -114,7 +114,7 @@ public class MenuControllerTest {
             .jsonPath("$.name").isEqualTo(updatedName)
             .jsonPath("$.nameInEnglish").isEqualTo(updatedMenuNameInEnglish)
             .jsonPath("$.description").isEqualTo(updatedDescription)
-            .jsonPath("$.imgUrl").isEqualTo("abc")
+            .jsonPath("$.image").isEqualTo("abc")
             .jsonPath("$.price").isEqualTo(updatedPrice)
             .jsonPath("$.category").isEqualTo("coffee");
 
@@ -127,7 +127,7 @@ public class MenuControllerTest {
             .jsonPath("$.name").isEqualTo(updatedName)
             .jsonPath("$.nameInEnglish").isEqualTo(updatedMenuNameInEnglish)
             .jsonPath("$.description").isEqualTo(updatedDescription)
-            .jsonPath("$.imgUrl").isEqualTo("abc")
+            .jsonPath("$.image").isEqualTo("abc")
             .jsonPath("$.price").isEqualTo(updatedPrice)
             .jsonPath("$.category").isEqualTo("coffee");
     }
