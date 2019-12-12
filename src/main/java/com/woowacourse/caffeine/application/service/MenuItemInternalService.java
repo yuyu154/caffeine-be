@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class MenuItemInternalService {
+class MenuItemInternalService {
 
     private final ShopInternalService shopInternalService;
     private final MenuItemRepository menuItemRepository;
@@ -43,7 +43,7 @@ public class MenuItemInternalService {
         return menuItemRepository.save(menuItem);
     }
 
-    public MenuItem findByMenuItemId(final long menuItemId) {
+    public MenuItem findById(final long menuItemId) {
         return menuItemRepository.findById(menuItemId)
             .orElseThrow(() -> new MenuItemNotFoundException(menuItemId));
     }

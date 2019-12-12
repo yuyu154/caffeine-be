@@ -16,7 +16,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.woowacourse.caffeine.controller.OrderController.V1_ORDERS;
+import static com.woowacourse.caffeine.controller.OrderController.V1_ORDER;
+import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,21 +30,10 @@ public class OrderControllerTest {
 
     @Test
     @DisplayName("주문 생성 및 단일 주문 조회")
-    void createOrder() {
-        final String postUri = V1_ORDERS;
+    void create() {
+        final long shopId = 100L;
         final long menuItemId = 987654321L;
-
-        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(menuItemId);
-
-        EntityExchangeResult<byte[]> result = webTestClient.post()
-            .uri(postUri)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(orderCreateRequest), OrderCreateRequest.class)
-            .exchange()
-            .expectStatus().isCreated()
-            .expectHeader()
-            .valueMatches("Location", postUri + "/\\d*")
-            .expectBody().returnResult();
+        EntityExchangeResult<byte[]> result = createOrder(shopId, menuItemId);
 
         String uri = result.getResponseHeaders().getLocation().toASCIIString();
         assertNotNull(uri);
@@ -58,67 +49,110 @@ public class OrderControllerTest {
         assertNotNull(orderResponse);
     }
 
-    @Test
-    @DisplayName("Pending 주문 조회")
-    void getPendingOrders() {
-        EntityExchangeResult<List<OrderResponse>> result = webTestClient.get()
-            .uri(V1_ORDERS + "/?status=PENDING")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBodyList(OrderResponse.class).returnResult();
+    private EntityExchangeResult<byte[]> createOrder(final long shopId, final long menuItemId) {
+        final String url = String.format("%s/%d/orders", V1_SHOP, shopId);
 
-        List<OrderResponse> orderResponses = result.getResponseBody();
-        assertNotNull(orderResponses);
+        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(menuItemId, "");
+
+        return webTestClient.post()
+            .uri(url)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Mono.just(orderCreateRequest), OrderCreateRequest.class)
+            .exchange()
+            .expectStatus().isCreated()
+            .expectHeader()
+            .valueMatches("Location", V1_SHOP + "/\\d*/orders/\\d*")
+            .expectBody().returnResult();
     }
 
     @Test
-    @DisplayName("InProgress 주문 조회")
-    void getInProgressOrders() {
-        EntityExchangeResult<List<OrderResponse>> result = webTestClient.get()
-            .uri(V1_ORDERS + "/?status=IN_PROGRESS")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBodyList(OrderResponse.class).returnResult();
+    @DisplayName("상태 별 주문 조회")
+    void find_by_status() {
+        final long shopId = 102L;
+        assertThat(findOrdersByStatus(shopId, "pending")).hasSize(3);
+        assertThat(findOrdersByStatus(shopId, "in_progress")).hasSize(3);
+        assertThat(findOrdersByStatus(shopId, "finished")).hasSize(2);
+    }
 
-        List<OrderResponse> orderResponses = result.getResponseBody();
-        assertNotNull(orderResponses);
+    private List<OrderResponse> findOrdersByStatus(final long shopId, final String status) {
+        String url = String.format("%s/%d/orders?status=%s", V1_SHOP, shopId, status);
+        EntityExchangeResult<List<OrderResponse>> result = webTestClient.get()
+                .uri(url)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(OrderResponse.class).returnResult();
+
+        return result.getResponseBody();
     }
 
     @Test
-    @DisplayName("Finished 주문 조회")
-    void getFinishedOrders() {
-        EntityExchangeResult<List<OrderResponse>> result = webTestClient.get()
-            .uri(V1_ORDERS + "/?status=FINISHED")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBodyList(OrderResponse.class).returnResult();
+    @DisplayName("주문 접수")
+    void accept() {
+        // given
+        final long shopId = 100L;
+        final long menuItemId = 987654321L;
+        String location = createOrder(shopId, menuItemId)
+        .getResponseHeaders().getLocation().toASCIIString();
 
-        List<OrderResponse> orderResponses = result.getResponseBody();
-        assertNotNull(orderResponses);
+        // when & then
+        String url = String.format("%s/accept", location);
+        webTestClient
+                .put()
+                .uri(url)
+                .exchange()
+                .expectStatus().isOk();
     }
 
     @Test
+    @DisplayName("주문 거절")
+    void reject() {
+        // given
+        final long shopId = 100L;
+        final long menuItemId = 987654321L;
+        String location = createOrder(shopId, menuItemId)
+                .getResponseHeaders().getLocation().toASCIIString();
+
+        // when & then
+        String url = String.format("%s/reject", location);
+        webTestClient
+                .put()
+                .uri(url)
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
+    @DisplayName("주문 완료")
+    void finish() {
+        // given
+        final long shopId = 100L;
+        final long menuItemId = 987654321L;
+        String location = createOrder(shopId, menuItemId)
+                .getResponseHeaders().getLocation().toASCIIString();
+
+        // when & then
+        String acceptUrl = String.format("%s/accept", location);
+        webTestClient
+                .put()
+                .uri(acceptUrl)
+                .exchange()
+                .expectStatus().isOk();
+        String finishUrl = String.format("%s/finish", location);
+        webTestClient
+                .put()
+                .uri(finishUrl)
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+//    @Test
     @DisplayName("PENDING -> IN_PROGRESS")
     void changePendingToProgress() {
         final long orderId = 987654317L;
         final OrderChangeRequest orderChangeRequest = new OrderChangeRequest(OrderStatus.IN_PROGRESS.toString());
 
         webTestClient.put()
-            .uri(V1_ORDERS + "/" + orderId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(orderChangeRequest), OrderChangeRequest.class)
-            .exchange()
-            .expectStatus().isOk();
-    }
-
-    @Test
-    @DisplayName("IN_PROGRESS -> FINISHED")
-    void changeProgressToFinished() {
-        final long orderId = 987654318L;
-        final OrderChangeRequest orderChangeRequest = new OrderChangeRequest(OrderStatus.FINISHED.toString());
-
-        webTestClient.put()
-            .uri(V1_ORDERS + "/" + orderId)
+            .uri(V1_ORDER + "/" + orderId)
             .contentType(MediaType.APPLICATION_JSON)
             .body(Mono.just(orderChangeRequest), OrderChangeRequest.class)
             .exchange()

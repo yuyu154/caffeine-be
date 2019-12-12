@@ -105,7 +105,7 @@ class MenuItemInternalServiceTest {
 
         // when
         when(menuItemRepository.findById(menuId)).thenReturn(ofNullable(menuItem));
-        MenuItem foundMenuItem = menuItemInternalService.findByMenuItemId(menuId);
+        MenuItem foundMenuItem = menuItemInternalService.findById(menuId);
 
         // then
         assertThat(foundMenuItem).isEqualTo(menuItem);

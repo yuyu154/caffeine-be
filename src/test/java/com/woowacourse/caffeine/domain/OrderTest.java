@@ -1,52 +1,65 @@
 package com.woowacourse.caffeine.domain;
 
-import com.woowacourse.caffeine.domain.exception.InvalidOrderChangeException;
+import com.woowacourse.caffeine.domain.exception.InvalidOrderStatusChangeException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class OrderTest {
 
-    String name;
-    String nameInEnglish;
-    String description;
-    int price;
-    String img;
-    String category;
-    Shop shop;
+    private MenuItem menuItem;
+    private Order order;
 
     @BeforeEach
     void setUp() {
-        name = "아메리카노";
-        nameInEnglish = "Americano";
-        description = "아메리카노 좋아~ 좋아~ 좋아";
-        price = 2500;
-        img = "abc";
-        category = "coffee";
-        shop = new Shop("어디야 커피");
+        Shop shop = new Shop("어디야 커피");
+        menuItem = new MenuItem("아메리카노", "Americano", "구수한 아메리카노", 2500, "", "coffee", shop);
+        order = Order.createOrder(shop, menuItem, "");
+    }
+
+   @Test
+    @DisplayName("주문 승인")
+    void accept() {
+        order.accept();
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.IN_PROGRESS);
     }
 
     @Test
-    void changeStatusPendingToInProgress() {
-        final MenuItem menuItem = new MenuItem(name, nameInEnglish, description, price, img, category, shop);
-        final Order order = Order.createOrder(menuItem);
-        order.changeStatus(OrderStatus.IN_PROGRESS);
+    @DisplayName("올바르지 않은 주문 승인")
+    void invalid_accept() {
+        order.accept();
+        assertThrows(InvalidOrderStatusChangeException.class, order::accept);
     }
 
     @Test
-    void changeStatusInProgressToFinished() {
-        final MenuItem menuItem = new MenuItem(name, nameInEnglish, description, price, img, category, shop);
-        final Order order = Order.createOrder(menuItem);
-        assertDoesNotThrow(() -> order.changeStatus(OrderStatus.IN_PROGRESS));
-        assertDoesNotThrow(() -> order.changeStatus(OrderStatus.FINISHED));
+    @DisplayName("주문 거절")
+    void reject() {
+        order.reject();
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.REJECTED);
     }
 
     @Test
-    void changeStatusException() {
-        final MenuItem menuItem = new MenuItem(name, nameInEnglish, description, price, img, category, shop);
-        final Order order = Order.createOrder(menuItem);
-        assertThrows(InvalidOrderChangeException.class, () -> order.changeStatus(OrderStatus.FINISHED));
+    @DisplayName("올바르지 않은 주문 거절")
+    void invalid_reject() {
+        order.reject();
+        assertThrows(InvalidOrderStatusChangeException.class, order::reject);
+    }
+
+    @Test
+    @DisplayName("주문 완료")
+    void finish() {
+        order.accept();
+        order.finish();
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.FINISHED);
+    }
+
+    @Test
+    @DisplayName("올바르지 않은 주문 완료")
+    void invalid_finish() {
+        assertThrows(InvalidOrderStatusChangeException.class, order::finish);
     }
 }

@@ -3,9 +3,7 @@ package com.woowacourse.caffeine.controller;
 import com.woowacourse.caffeine.application.dto.OrderChangeRequest;
 import com.woowacourse.caffeine.application.dto.OrderCreateRequest;
 import com.woowacourse.caffeine.application.dto.OrderResponse;
-import com.woowacourse.caffeine.application.service.MenuItemInternalService;
 import com.woowacourse.caffeine.application.service.OrderService;
-import com.woowacourse.caffeine.domain.MenuItem;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,57 +18,57 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
 
+import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
+
 @RestController
-@RequestMapping(OrderController.V1_ORDERS)
+@RequestMapping(OrderController.V1_ORDER)
 public class OrderController {
 
-    public static final String V1_ORDERS = "/v1/orders";
-    private static final Long CUSTOMER_ID = 1L;
+    public static final String V1_ORDER = "/v1/shops/{shopId}/orders";
 
     private final OrderService orderService;
-    private final MenuItemInternalService menuItemInternalService;
 
-    public OrderController(final OrderService orderService, final MenuItemInternalService menuItemInternalService) {
+    public OrderController(final OrderService orderService) {
         this.orderService = orderService;
-        this.menuItemInternalService = menuItemInternalService;
     }
 
     @PostMapping
-    public ResponseEntity createOrder(@RequestBody final OrderCreateRequest orderCreateRequest) {
-        final long menuItemId = orderCreateRequest.getMenuItemId();
-        final MenuItem menuItem = menuItemInternalService.findByMenuItemId(menuItemId);
-        final OrderResponse orderResponse = orderService.create(menuItem);
-        return ResponseEntity.created(URI.create(String.format("%s%s%d", V1_ORDERS, "/", orderResponse.getOrderId())))
+    public ResponseEntity createOrder(
+            @PathVariable final long shopId,
+            @RequestBody final OrderCreateRequest orderCreateRequest) {
+        final OrderResponse orderResponse = orderService.create(shopId, orderCreateRequest);
+        return ResponseEntity.created(URI.create(String.format("%s/%d/orders/%d", V1_SHOP, shopId, orderResponse.getId())))
             .build();
     }
 
     @GetMapping("/{orderId}")
     @Transactional
-    public ResponseEntity findByOrderId(@PathVariable final Long orderId) {
-        final long customerId = CUSTOMER_ID;
-        final OrderResponse orderResponse = orderService.findOrderById(orderId, customerId);
+    public ResponseEntity findById(@PathVariable final Long orderId) {
+        final OrderResponse orderResponse = orderService.findById(orderId);
         return ResponseEntity.ok(orderResponse);
     }
 
     @GetMapping
-    public ResponseEntity findByOrdersByStatus(@RequestParam("status") final String status) {
-        final long customerId = CUSTOMER_ID;
-        final List<OrderResponse> orderResponses = orderService.findAllOrders(customerId, status);
-
+    public ResponseEntity findByStatus(@PathVariable final long shopId, @RequestParam("status") final String status) {
+        final List<OrderResponse> orderResponses = orderService.findByStatus(shopId, status);
         return ResponseEntity.ok(orderResponses);
     }
 
-    @PutMapping("/{orderId}")
-    public ResponseEntity changeStatus(
-        @PathVariable("orderId") final Long orderId,
-        @RequestBody final OrderChangeRequest orderChangeRequest) {
+    @PutMapping("/{orderId}/accept")
+    public ResponseEntity acceptOrder(@PathVariable final long orderId) {
+        orderService.acceptOrder(orderId);
+        return ResponseEntity.ok().build();
+    }
 
-        orderService.changeStatus(
-            orderId,
-            CUSTOMER_ID,
-            orderChangeRequest.getChangeStatus());
+    @PutMapping("/{orderId}/reject")
+    public ResponseEntity rejectOrder(@PathVariable final long orderId) {
+        orderService.rejectOrder(orderId);
+        return ResponseEntity.ok().build();
+    }
 
-        return ResponseEntity.ok("CHANGE SUCCESS");
+    @PutMapping("/{orderId}/finish")
+    public ResponseEntity finishOrder(@PathVariable final long orderId) {
+        orderService.finishOrder(orderId);
+        return ResponseEntity.ok().build();
     }
 }
-

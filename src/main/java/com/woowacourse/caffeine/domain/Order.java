@@ -1,6 +1,6 @@
 package com.woowacourse.caffeine.domain;
 
-import com.woowacourse.caffeine.domain.exception.InvalidOrderChangeException;
+import com.woowacourse.caffeine.domain.exception.InvalidOrderStatusChangeException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,30 +29,48 @@ public class Order extends BaseTimeEntity {
     @Column(name = "order_status", nullable = false)
     private OrderStatus orderStatus;
 
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
+    private String customerId;
+
     protected Order() {
     }
 
-    protected Order(final MenuItem menuItem, final OrderStatus orderStatus) {
+    private Order(final MenuItem menuItem, final OrderStatus orderStatus, final Shop shop, final String customerId) {
         this.menuItem = menuItem;
         this.orderStatus = orderStatus;
+        this.shop = shop;
+        this.customerId = customerId;
     }
 
-    public static Order createOrder(final MenuItem menuItem) {
-        return new Order(menuItem, OrderStatus.PENDING);
+    public static Order createOrder(final Shop shop, final MenuItem menuItem, final String customerId) {
+        return new Order(menuItem, OrderStatus.PENDING, shop, customerId);
     }
 
-    public void changeStatus(final OrderStatus orderStatus) {
-        if (OrderStatus.PENDING.equals(this.orderStatus) && OrderStatus.IN_PROGRESS.equals(orderStatus)) {
-            this.orderStatus = orderStatus;
+    public void accept() {
+        if (orderStatus == OrderStatus.PENDING) {
+            orderStatus = OrderStatus.IN_PROGRESS;
             return;
         }
+        throw new InvalidOrderStatusChangeException(orderStatus, OrderStatus.IN_PROGRESS);
+    }
 
-        if (OrderStatus.IN_PROGRESS.equals(this.orderStatus) && OrderStatus.FINISHED.equals(orderStatus)) {
-            this.orderStatus = orderStatus;
+    public void reject() {
+        if (orderStatus == OrderStatus.PENDING) {
+            orderStatus = OrderStatus.REJECTED;
             return;
         }
+        throw new InvalidOrderStatusChangeException(orderStatus, OrderStatus.REJECTED);
+    }
 
-        throw new InvalidOrderChangeException(orderStatus.toString());
+    public void finish() {
+        if (orderStatus == OrderStatus.IN_PROGRESS) {
+            orderStatus = OrderStatus.FINISHED;
+            return;
+        }
+        throw new InvalidOrderStatusChangeException(orderStatus, OrderStatus.FINISHED);
     }
 
     public Long getId() {
@@ -63,4 +81,15 @@ public class Order extends BaseTimeEntity {
         return menuItem;
     }
 
+    public Shop getShop() {
+        return shop;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
 }

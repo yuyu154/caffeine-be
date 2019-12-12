@@ -16,9 +16,12 @@ public class OrderRepositoryTest {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ShopRepository shopRepository;
+
     @Test
     void findByStatusTest() {
-        List<Order> orders = orderRepository.findAllByOrderStatus(OrderStatus.PENDING);
+        List<Order> orders = orderRepository.findByShopAndOrderStatus(shopRepository.findById(102L).get(), OrderStatus.PENDING);
 
         assertThat(orders).hasSize(3);
     }

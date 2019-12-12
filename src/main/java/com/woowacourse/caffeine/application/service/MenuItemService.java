@@ -35,7 +35,7 @@ public class MenuItemService {
 
     @Transactional(readOnly = true)
     public MenuItemResponse findByMenuItemId(final long menuItemId) {
-        MenuItem menuItem = menuItemInternalService.findByMenuItemId(menuItemId);
+        MenuItem menuItem = menuItemInternalService.findById(menuItemId);
         return convertToResponse(menuItem);
     }
 

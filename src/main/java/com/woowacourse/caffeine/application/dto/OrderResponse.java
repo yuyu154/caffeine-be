@@ -2,28 +2,30 @@ package com.woowacourse.caffeine.application.dto;
 
 public class OrderResponse {
 
-    private long orderId;
-    private long customerId;
+    private long id;
     private long menuItemId;
 
     public OrderResponse() {
     }
 
-    public OrderResponse(final long orderId, final long customerId, final long menuItemId) {
-        this.orderId = orderId;
-        this.customerId = customerId;
+    public OrderResponse(final long id, final long menuItemId) {
+        this.id = id;
         this.menuItemId = menuItemId;
     }
 
-    public long getOrderId() {
-        return orderId;
-    }
-
-    public long getCustomerId() {
-        return customerId;
+    public long getId() {
+        return id;
     }
 
     public long getMenuItemId() {
         return menuItemId;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderResponse{" +
+                "id=" + id +
+                ", menuItemId=" + menuItemId +
+                '}';
     }
 }
