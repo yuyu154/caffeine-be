@@ -1,34 +1,65 @@
 package com.woowacourse.caffeine.domain;
 
-import com.woowacourse.caffeine.repository.OrderRepository;
+import com.woowacourse.caffeine.domain.exception.InvalidOrderStatusChangeException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-public class OrderTest {
+class OrderTest {
 
-    @Autowired
-    OrderRepository orderRepository;
+    private MenuItem menuItem;
+    private Order order;
+
+    @BeforeEach
+    void setUp() {
+        Shop shop = new Shop("어디야 커피");
+        menuItem = new MenuItem("아메리카노", "Americano", "구수한 아메리카노", 2500, "", "coffee", shop);
+        order = Order.createOrder(shop, menuItem, "");
+    }
+
+   @Test
+    @DisplayName("주문 승인")
+    void accept() {
+        order.accept();
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.IN_PROGRESS);
+    }
 
     @Test
-    public void BaseTimeEntity_등록() {
-        //given
-        LocalDateTime now = LocalDateTime.of(2019, 12, 6, 0, 0, 0);
-        orderRepository.save(new Order());
+    @DisplayName("올바르지 않은 주문 승인")
+    void invalid_accept() {
+        order.accept();
+        assertThrows(InvalidOrderStatusChangeException.class, order::accept);
+    }
 
-        //when
-        List<Order> orders = orderRepository.findAll();
+    @Test
+    @DisplayName("주문 거절")
+    void reject() {
+        order.reject();
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.REJECTED);
+    }
 
-        //then
-        Order order = orders.get(0);
+    @Test
+    @DisplayName("올바르지 않은 주문 거절")
+    void invalid_reject() {
+        order.reject();
+        assertThrows(InvalidOrderStatusChangeException.class, order::reject);
+    }
 
-        assertThat(order.getCreatedDate()).isAfter(now);
-        assertThat(order.getModifiedDate()).isAfter(now);
+    @Test
+    @DisplayName("주문 완료")
+    void finish() {
+        order.accept();
+        order.finish();
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.FINISHED);
+    }
+
+    @Test
+    @DisplayName("올바르지 않은 주문 완료")
+    void invalid_finish() {
+        assertThrows(InvalidOrderStatusChangeException.class, order::finish);
     }
 }
