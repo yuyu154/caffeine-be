@@ -1,15 +1,16 @@
 package com.woowacourse.caffeine.application.service;
 
+import com.woowacourse.caffeine.application.dto.MenuItemResponse;
 import com.woowacourse.caffeine.application.dto.OrderCreateRequest;
 import com.woowacourse.caffeine.application.dto.OrderResponse;
+import com.woowacourse.caffeine.domain.MenuItem;
 import com.woowacourse.caffeine.domain.Order;
 import com.woowacourse.caffeine.domain.OrderStatus;
 import com.woowacourse.caffeine.domain.Shop;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,13 +28,24 @@ public class OrderService {
 
     public OrderResponse create(final long shopId, final OrderCreateRequest request) {
         final Order order = orderInternalService.create(shopId, request);
-        return new OrderResponse(order.getId(), order.getMenuItem().getId());
+        return new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem())));
+    }
+
+    private MenuItemResponse convertToMenuItemResponse(final MenuItem menuItem) {
+        return new MenuItemResponse(
+                menuItem.getId(),
+                menuItem.getName(),
+                menuItem.getNameInEnglish(),
+                menuItem.getDescription(),
+                menuItem.getPrice(),
+                menuItem.getImgUrl(),
+                menuItem.getCategory());
     }
 
     @Transactional(readOnly = true)
     public OrderResponse findById(final Long orderId) {
         final Order order = orderInternalService.findById(orderId);
-        return new OrderResponse(order.getId(), order.getMenuItem().getId());
+        return new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem())));
     }
 
     @Transactional(readOnly = true)
@@ -41,10 +53,9 @@ public class OrderService {
         final Shop shop = shopInternalService.findById(shopId);
         final List<Order> orders = orderInternalService.findByStatus(shop, OrderStatus.from(orderStatusName));
 
-        final List<OrderResponse> orderResponses = orders.stream()
-            .map(order -> new OrderResponse(order.getId(), order.getMenuItem().getId()))
-            .collect(Collectors.toList());
-        return orderResponses;
+        return orders.stream()
+                .map(order -> new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem()))))
+                .collect(Collectors.toList());
     }
 
     public void acceptOrder(final long orderId) {

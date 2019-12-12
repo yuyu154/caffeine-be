@@ -1,19 +1,19 @@
 package com.woowacourse.caffeine.application.dto;
 
-import com.woowacourse.caffeine.domain.Shop;
-
 public class MenuItemResponse {
 
-    private final long id;
-    private final String name;
-    private final String nameInEnglish;
-    private final String description;
-    private final int price;
-    private final String image;
-    private final String category;
-    private final Shop vendor;
+    private long id;
+    private String name;
+    private String nameInEnglish;
+    private String description;
+    private int price;
+    private String image;
+    private String category;
 
-    public MenuItemResponse(final long id, final String name, final String nameInEnglish, final String description, final int price, final String image, final String category, final Shop vendor) {
+    public MenuItemResponse() {
+    }
+
+    public MenuItemResponse(final long id, final String name, final String nameInEnglish, final String description, final int price, final String image, final String category) {
         this.id = id;
         this.name = name;
         this.nameInEnglish = nameInEnglish;
@@ -21,7 +21,6 @@ public class MenuItemResponse {
         this.price = price;
         this.image = image;
         this.category = category;
-        this.vendor = vendor;
     }
 
     public long getId() {
@@ -50,9 +49,5 @@ public class MenuItemResponse {
 
     public String getCategory() {
         return category;
-    }
-
-    public Shop getVendor() {
-        return vendor;
     }
 }

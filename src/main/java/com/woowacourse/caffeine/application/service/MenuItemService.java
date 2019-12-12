@@ -56,8 +56,6 @@ public class MenuItemService {
             menuItem.getDescription(),
             menuItem.getPrice(),
             menuItem.getImgUrl(),
-            menuItem.getCategory(),
-            menuItem.getVendor()
-        );
+            menuItem.getCategory());
     }
 }

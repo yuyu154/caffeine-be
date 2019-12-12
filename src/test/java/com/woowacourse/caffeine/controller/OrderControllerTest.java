@@ -39,10 +39,10 @@ public class OrderControllerTest {
         assertNotNull(uri);
 
         EntityExchangeResult<OrderResponse> getResult = webTestClient.get()
-            .uri(uri)
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody(OrderResponse.class).returnResult();
+                .uri(uri)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(OrderResponse.class).returnResult();
 
         final OrderResponse orderResponse = getResult.getResponseBody();
 
@@ -55,14 +55,14 @@ public class OrderControllerTest {
         final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(menuItemId, "");
 
         return webTestClient.post()
-            .uri(url)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(orderCreateRequest), OrderCreateRequest.class)
-            .exchange()
-            .expectStatus().isCreated()
-            .expectHeader()
-            .valueMatches("Location", V1_SHOP + "/\\d*/orders/\\d*")
-            .expectBody().returnResult();
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(orderCreateRequest), OrderCreateRequest.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader()
+                .valueMatches("Location", V1_SHOP + "/\\d*/orders/\\d*")
+                .expectBody().returnResult();
     }
 
     @Test
@@ -92,7 +92,7 @@ public class OrderControllerTest {
         final long shopId = 100L;
         final long menuItemId = 987654321L;
         String location = createOrder(shopId, menuItemId)
-        .getResponseHeaders().getLocation().toASCIIString();
+                .getResponseHeaders().getLocation().toASCIIString();
 
         // when & then
         String url = String.format("%s/accept", location);
@@ -145,17 +145,17 @@ public class OrderControllerTest {
                 .expectStatus().isOk();
     }
 
-//    @Test
+    //    @Test
     @DisplayName("PENDING -> IN_PROGRESS")
     void changePendingToProgress() {
         final long orderId = 987654317L;
         final OrderChangeRequest orderChangeRequest = new OrderChangeRequest(OrderStatus.IN_PROGRESS.toString());
 
         webTestClient.put()
-            .uri(V1_ORDER + "/" + orderId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(Mono.just(orderChangeRequest), OrderChangeRequest.class)
-            .exchange()
-            .expectStatus().isOk();
+                .uri(V1_ORDER + "/" + orderId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(orderChangeRequest), OrderChangeRequest.class)
+                .exchange()
+                .expectStatus().isOk();
     }
 }
