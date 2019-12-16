@@ -41,7 +41,6 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    @Transactional
     public ResponseEntity findById(@PathVariable final Long orderId) {
         final OrderResponse orderResponse = orderService.findById(orderId);
         return ResponseEntity.ok(orderResponse);
