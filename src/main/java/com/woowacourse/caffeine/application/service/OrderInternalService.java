@@ -10,6 +10,7 @@ import com.woowacourse.caffeine.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +41,17 @@ class OrderInternalService {
         final MenuItem menuItem = menuItemInternalService.findById(request.getMenuItemId());
         shopNotificationService.send(shopId, "주문이 들어왔습니다.");
         return orderRepository.save(Order.createOrder(shop, menuItem, request.getCustomerId()));
+    }
+
+    public Order create2(final long shopId, final OrderCreateRequest orderCreateRequest) {
+        final Shop shop = shopInternalService.findById(shopId);
+        final List<Long> menuItemsNumber = orderCreateRequest.getMenuItems();
+        final List<MenuItem> menuItems = new ArrayList<>();
+        for (final Long menuItemId : menuItemsNumber) {
+            menuItems.add(menuItemInternalService.findById(menuItemId));
+        }
+        shopNotificationService.send(shopId, "주문이 들어왔습니다");
+        return orderRepository.save(Order.createOrder(shop, menuItems.get(0), orderCreateRequest.getCustomerId()));
     }
 
     @Transactional(readOnly = true)
