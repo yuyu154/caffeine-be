@@ -31,6 +31,11 @@ public class OrderService {
         return new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem())));
     }
 
+    public OrderResponse create2(final long shopId, final OrderCreateRequest orderCreateRequest) {
+        final Order order = orderInternalService.create2(shopId, orderCreateRequest);
+        return new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem())));
+    }
+
     private MenuItemResponse convertToMenuItemResponse(final MenuItem menuItem) {
         return new MenuItemResponse(
             menuItem.getId(),
