@@ -20,7 +20,7 @@ class OrderTest {
         order = Order.createOrder(shop, menuItem, "");
     }
 
-   @Test
+    @Test
     @DisplayName("주문 승인")
     void accept() {
         order.accept();

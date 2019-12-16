@@ -1,41 +1,19 @@
 package com.woowacourse.caffeine.controller;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseOperation;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.woowacourse.caffeine.application.dto.MenuCreateRequest;
 import com.woowacourse.caffeine.application.dto.MenuItemUpdateRequest;
-import com.woowacourse.caffeine.config.DbUnitConfig;
+import com.woowacourse.caffeine.utils.DbUnitTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import static com.woowacourse.caffeine.controller.MenuController.V1_MENU;
 
-@Transactional
-@AutoConfigureWebTestClient
-@Import(DbUnitConfig.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestExecutionListeners({
-    DbUnitTestExecutionListener.class,
-    DependencyInjectionTestExecutionListener.class
-})
-@DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection")
-@DatabaseSetup(value = "/META-INF/data.xml", type = DatabaseOperation.CLEAN_INSERT)
-@DatabaseTearDown(value = "/META-INF/data.xml", type = DatabaseOperation.DELETE_ALL)
-public class MenuControllerTest {
+public class MenuControllerTest extends DbUnitTest {
 
     private static final long DEFAULT_SHOP_ID = 102L;
     private static final long DEFAULT_MENU_ID = 987654321L;
