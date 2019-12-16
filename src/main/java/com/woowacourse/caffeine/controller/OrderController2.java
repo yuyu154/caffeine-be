@@ -1,7 +1,6 @@
 package com.woowacourse.caffeine.controller;
 
 import com.woowacourse.caffeine.application.dto.OrderCreateRequest;
-import com.woowacourse.caffeine.application.dto.OrderResponse;
 import com.woowacourse.caffeine.application.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,8 +30,8 @@ public class OrderController2 {
         @PathVariable final long shopId,
         @RequestBody final OrderCreateRequest orderCreateRequest) {
 
-        final OrderResponse orderResponse = orderService.create2(shopId, orderCreateRequest);
-        return ResponseEntity.created(URI.create(String.format("%s/%d/orders/%d", V1_SHOP, shopId, orderResponse.getId())))
+        final long orderId = orderService.create2(shopId, orderCreateRequest);
+        return ResponseEntity.created(URI.create(String.format("%s/%d/orders/%d", V1_SHOP, shopId, orderId)))
             .build();
     }
 }
