@@ -12,18 +12,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class OrderService {
 
     private final OrderInternalService orderInternalService;
     private final ShopInternalService shopInternalService;
+    private final OrderItemInternalService orderItemInternalService;
 
     public OrderService(final OrderInternalService orderInternalService,
-                        final ShopInternalService shopInternalService) {
+                        final ShopInternalService shopInternalService,
+                        final OrderItemInternalService orderItemInternalService) {
         this.orderInternalService = orderInternalService;
         this.shopInternalService = shopInternalService;
+        this.orderItemInternalService = orderItemInternalService;
     }
 
     public OrderResponse create(final long shopId, final OrderCreateRequest request) {
@@ -31,9 +35,9 @@ public class OrderService {
         return new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem())));
     }
 
-    public OrderResponse create2(final long shopId, final OrderCreateRequest orderCreateRequest) {
+    public long create2(final long shopId, final OrderCreateRequest orderCreateRequest) {
         final Order order = orderInternalService.create2(shopId, orderCreateRequest);
-        return new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem())));
+        return order.getId();
     }
 
     private MenuItemResponse convertToMenuItemResponse(final MenuItem menuItem) {
@@ -50,9 +54,18 @@ public class OrderService {
     @Transactional(readOnly = true)
     public OrderResponse findById(final Long orderId) {
         final Order order = orderInternalService.findById(orderId);
-        return new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem())));
+        final List<MenuItem> menuItems = orderItemInternalService.findMenusByOrder(order);
+        final List<MenuItemResponse> menuItemResponses = convertToMenuItemResponses(menuItems);
+        return new OrderResponse(order.getId(), order.getOrderStatus().name(), menuItemResponses);
     }
 
+    private List<MenuItemResponse> convertToMenuItemResponses(final List<MenuItem> menuItems) {
+        return menuItems.stream()
+            .map(this::convertToMenuItemResponse)
+            .collect(toList());
+    }
+
+    // orderInternalService.findByStatus(shopId, OrderStatus.from(orderStatusName) 고려
     @Transactional(readOnly = true)
     public List<OrderResponse> findByStatus(final long shopId, final String orderStatusName) {
         final Shop shop = shopInternalService.findById(shopId);
@@ -60,7 +73,7 @@ public class OrderService {
 
         return orders.stream()
             .map(order -> new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem()))))
-            .collect(Collectors.toList());
+            .collect(toList());
     }
 
     public void acceptOrder(final long orderId) {

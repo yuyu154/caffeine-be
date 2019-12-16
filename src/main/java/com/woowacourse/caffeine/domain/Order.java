@@ -22,7 +22,7 @@ public class Order extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "menu_id", nullable = false)
+    @JoinColumn(name = "menu_id")
     private MenuItem menuItem;
 
     @Enumerated(value = EnumType.STRING)
@@ -38,6 +38,12 @@ public class Order extends BaseTimeEntity {
     protected Order() {
     }
 
+    public Order(final OrderStatus orderStatus, final Shop shop, final String customerId) {
+        this.orderStatus = orderStatus;
+        this.shop = shop;
+        this.customerId = customerId;
+    }
+
     private Order(final MenuItem menuItem, final OrderStatus orderStatus, final Shop shop, final String customerId) {
         this.menuItem = menuItem;
         this.orderStatus = orderStatus;
@@ -47,6 +53,10 @@ public class Order extends BaseTimeEntity {
 
     public static Order createOrder(final Shop shop, final MenuItem menuItem, final String customerId) {
         return new Order(menuItem, OrderStatus.PENDING, shop, customerId);
+    }
+
+    public static Order createOrder2(final Shop shop, final String customerId) {
+        return new Order(OrderStatus.PENDING, shop, customerId);
     }
 
     public void accept() {
