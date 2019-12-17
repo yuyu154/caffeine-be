@@ -39,7 +39,7 @@ public class OrderControllerTest {
 
 
         final String uri = webTestClient.post()
-            .uri(String.format("%s/%d/orders/", "/v2/shops", shopId))
+            .uri(String.format("%s/%d/orders/", "/v1/shops", shopId))
             .body(Mono.just(orderCreateRequest), OrderCreateRequest.class)
             .exchange().expectStatus().isCreated()
             .expectHeader().valueMatches("Location", V1_SHOP + "/\\d*/orders/\\d*")
