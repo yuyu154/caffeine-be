@@ -30,13 +30,8 @@ public class OrderService {
         this.orderItemInternalService = orderItemInternalService;
     }
 
-    public OrderResponse create(final long shopId, final OrderCreateRequest request) {
-        final Order order = orderInternalService.create(shopId, request);
-        return new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem())));
-    }
-
-    public long create2(final long shopId, final OrderCreateRequest orderCreateRequest) {
-        final Order order = orderInternalService.create2(shopId, orderCreateRequest);
+    public long create(final long shopId, final OrderCreateRequest orderCreateRequest) {
+        final Order order = orderInternalService.create(shopId, orderCreateRequest);
         return order.getId();
     }
 

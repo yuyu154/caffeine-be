@@ -34,7 +34,7 @@ public class OrderController {
     public ResponseEntity createOrder(
         @PathVariable final long shopId,
         @RequestBody final OrderCreateRequest orderCreateRequest) {
-        final long orderId = orderService.create2(shopId, orderCreateRequest);
+        final long orderId = orderService.create(shopId, orderCreateRequest);
         return ResponseEntity.created(URI.create(String.format("%s/%d/orders/%d", V1_SHOP, shopId, orderId)))
             .build();
     }
