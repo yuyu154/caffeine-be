@@ -46,6 +46,6 @@ public class ShopService {
     }
 
     private ShopResponse convertToShopResponse(final Shop shop) {
-        return shopConverter.convertToDto(shop, ShopResponse.class);
+        return shopConverter.convertToDto(shop);
     }
 }

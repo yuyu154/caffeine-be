@@ -33,13 +33,13 @@ public class OrderService {
 
     private MenuItemResponse convertToMenuItemResponse(final MenuItem menuItem) {
         return new MenuItemResponse(
-                menuItem.getId(),
-                menuItem.getName(),
-                menuItem.getNameInEnglish(),
-                menuItem.getDescription(),
-                menuItem.getPrice(),
-                menuItem.getImgUrl(),
-                menuItem.getCategory());
+            menuItem.getId(),
+            menuItem.getName(),
+            menuItem.getNameInEnglish(),
+            menuItem.getDescription(),
+            menuItem.getPrice(),
+            menuItem.getImgUrl(),
+            menuItem.getCategory());
     }
 
     @Transactional(readOnly = true)
@@ -54,8 +54,8 @@ public class OrderService {
         final List<Order> orders = orderInternalService.findByStatus(shop, OrderStatus.from(orderStatusName));
 
         return orders.stream()
-                .map(order -> new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem()))))
-                .collect(Collectors.toList());
+            .map(order -> new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem()))))
+            .collect(Collectors.toList());
     }
 
     public void acceptOrder(final long orderId) {

@@ -20,7 +20,7 @@ class NotificationInternalService<T> {
     private final Map<T, Queue<String>> pendingMessages = new HashMap<>();
 
     public ResponseBodyEmitter subscribe(final T id) {
-        ResponseBodyEmitter emitter = createSseEmitter(id);;
+        ResponseBodyEmitter emitter = createSseEmitter(id);
 
         try {
             emitter.send("ok");

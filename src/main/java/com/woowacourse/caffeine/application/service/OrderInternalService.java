@@ -45,7 +45,7 @@ class OrderInternalService {
     @Transactional(readOnly = true)
     public Order findById(final Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
+            .orElseThrow(() -> new OrderNotFoundException(orderId));
     }
 
     @Transactional(readOnly = true)

@@ -4,11 +4,10 @@ import com.woowacourse.caffeine.application.dto.OrderChangeRequest;
 import com.woowacourse.caffeine.application.dto.OrderCreateRequest;
 import com.woowacourse.caffeine.application.dto.OrderResponse;
 import com.woowacourse.caffeine.domain.OrderStatus;
+import com.woowacourse.caffeine.dbunit.WebTestClientWithDbUnitTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -21,8 +20,7 @@ import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
+@WebTestClientWithDbUnitTest
 public class OrderControllerTest {
 
     @Autowired
@@ -39,10 +37,10 @@ public class OrderControllerTest {
         assertNotNull(uri);
 
         EntityExchangeResult<OrderResponse> getResult = webTestClient.get()
-                .uri(uri)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(OrderResponse.class).returnResult();
+            .uri(uri)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(OrderResponse.class).returnResult();
 
         final OrderResponse orderResponse = getResult.getResponseBody();
 
@@ -55,14 +53,14 @@ public class OrderControllerTest {
         final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(menuItemId, "");
 
         return webTestClient.post()
-                .uri(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(Mono.just(orderCreateRequest), OrderCreateRequest.class)
-                .exchange()
-                .expectStatus().isCreated()
-                .expectHeader()
-                .valueMatches("Location", V1_SHOP + "/\\d*/orders/\\d*")
-                .expectBody().returnResult();
+            .uri(url)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Mono.just(orderCreateRequest), OrderCreateRequest.class)
+            .exchange()
+            .expectStatus().isCreated()
+            .expectHeader()
+            .valueMatches("Location", V1_SHOP + "/\\d*/orders/\\d*")
+            .expectBody().returnResult();
     }
 
     @Test
@@ -77,10 +75,10 @@ public class OrderControllerTest {
     private List<OrderResponse> findOrdersByStatus(final long shopId, final String status) {
         String url = String.format("%s/%d/orders?status=%s", V1_SHOP, shopId, status);
         EntityExchangeResult<List<OrderResponse>> result = webTestClient.get()
-                .uri(url)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(OrderResponse.class).returnResult();
+            .uri(url)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBodyList(OrderResponse.class).returnResult();
 
         return result.getResponseBody();
     }
@@ -92,15 +90,15 @@ public class OrderControllerTest {
         final long shopId = 100L;
         final long menuItemId = 987654321L;
         String location = createOrder(shopId, menuItemId)
-                .getResponseHeaders().getLocation().toASCIIString();
+            .getResponseHeaders().getLocation().toASCIIString();
 
         // when & then
         String url = String.format("%s/accept", location);
         webTestClient
-                .put()
-                .uri(url)
-                .exchange()
-                .expectStatus().isOk();
+            .put()
+            .uri(url)
+            .exchange()
+            .expectStatus().isOk();
     }
 
     @Test
@@ -110,15 +108,15 @@ public class OrderControllerTest {
         final long shopId = 100L;
         final long menuItemId = 987654321L;
         String location = createOrder(shopId, menuItemId)
-                .getResponseHeaders().getLocation().toASCIIString();
+            .getResponseHeaders().getLocation().toASCIIString();
 
         // when & then
         String url = String.format("%s/reject", location);
         webTestClient
-                .put()
-                .uri(url)
-                .exchange()
-                .expectStatus().isOk();
+            .put()
+            .uri(url)
+            .exchange()
+            .expectStatus().isOk();
     }
 
     @Test
@@ -128,21 +126,21 @@ public class OrderControllerTest {
         final long shopId = 100L;
         final long menuItemId = 987654321L;
         String location = createOrder(shopId, menuItemId)
-                .getResponseHeaders().getLocation().toASCIIString();
+            .getResponseHeaders().getLocation().toASCIIString();
 
         // when & then
         String acceptUrl = String.format("%s/accept", location);
         webTestClient
-                .put()
-                .uri(acceptUrl)
-                .exchange()
-                .expectStatus().isOk();
+            .put()
+            .uri(acceptUrl)
+            .exchange()
+            .expectStatus().isOk();
         String finishUrl = String.format("%s/finish", location);
         webTestClient
-                .put()
-                .uri(finishUrl)
-                .exchange()
-                .expectStatus().isOk();
+            .put()
+            .uri(finishUrl)
+            .exchange()
+            .expectStatus().isOk();
     }
 
     //    @Test
@@ -152,10 +150,10 @@ public class OrderControllerTest {
         final OrderChangeRequest orderChangeRequest = new OrderChangeRequest(OrderStatus.IN_PROGRESS.toString());
 
         webTestClient.put()
-                .uri(V1_ORDER + "/" + orderId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(Mono.just(orderChangeRequest), OrderChangeRequest.class)
-                .exchange()
-                .expectStatus().isOk();
+            .uri(V1_ORDER + "/" + orderId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Mono.just(orderChangeRequest), OrderChangeRequest.class)
+            .exchange()
+            .expectStatus().isOk();
     }
 }

@@ -2,11 +2,10 @@ package com.woowacourse.caffeine.controller;
 
 import com.woowacourse.caffeine.application.dto.MenuCreateRequest;
 import com.woowacourse.caffeine.application.dto.MenuItemUpdateRequest;
+import com.woowacourse.caffeine.dbunit.WebTestClientWithDbUnitTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -14,9 +13,7 @@ import reactor.core.publisher.Mono;
 
 import static com.woowacourse.caffeine.controller.MenuController.V1_MENU;
 
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
+@WebTestClientWithDbUnitTest
 public class MenuControllerTest {
 
     private static final long DEFAULT_SHOP_ID = 102L;
@@ -148,5 +145,4 @@ public class MenuControllerTest {
             .exchange()
             .expectStatus().is5xxServerError();
     }
-
 }

@@ -4,11 +4,10 @@ import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.ShopResponse;
 import com.woowacourse.caffeine.application.dto.ShopResponses;
 import com.woowacourse.caffeine.mock.ShopResponseRepository;
+import com.woowacourse.caffeine.dbunit.WebTestClientWithDbUnitTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -18,8 +17,7 @@ import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
+@WebTestClientWithDbUnitTest
 public class ShopControllerTest {
 
     private static final long DEFAULT_SHOP_ID = 100L;

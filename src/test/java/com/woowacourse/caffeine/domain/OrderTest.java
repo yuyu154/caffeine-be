@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class OrderTest {
@@ -21,7 +20,7 @@ class OrderTest {
         order = Order.createOrder(shop, menuItem, "");
     }
 
-   @Test
+    @Test
     @DisplayName("주문 승인")
     void accept() {
         order.accept();

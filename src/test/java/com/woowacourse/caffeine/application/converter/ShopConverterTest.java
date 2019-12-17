@@ -7,7 +7,6 @@ import com.woowacourse.caffeine.mock.ShopRequestRepository;
 import com.woowacourse.caffeine.mock.ShopResponseRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
@@ -19,7 +18,7 @@ public class ShopConverterTest {
 
     @BeforeEach
     void setUp() {
-        shopConverter = new ShopConverter(new ModelMapper());
+        shopConverter = new ShopConverter();
     }
 
     @Test
@@ -31,7 +30,7 @@ public class ShopConverterTest {
         when(mockShop.getId()).thenReturn(shopId);
 
         // then
-        final ShopResponse shopResponse = shopConverter.convertToDto(mockShop, ShopResponse.class);
+        final ShopResponse shopResponse = shopConverter.convertToDto(mockShop);
         assertThat(shopResponse.getId()).isEqualTo(shopId);
         assertThat(shopResponse.getName()).isEqualTo(shop.getName());
         assertThat(shopResponse.getImage()).isEqualTo(shop.getImage());
