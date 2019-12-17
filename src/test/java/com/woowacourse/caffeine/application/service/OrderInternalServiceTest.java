@@ -71,7 +71,7 @@ public class OrderInternalServiceTest {
         when(orderRepository.save(any())).thenReturn(Order.createOrder2(shop, ""));
 
         // when
-        Order created = orderInternalService.create2(shopId, new OrderCreateRequest("", menuItems));
+        Order created = orderInternalService.create(shopId, new OrderCreateRequest("", menuItems));
 
         // then
         assertThat(created.getShop().getName()).isEqualTo(shopName);

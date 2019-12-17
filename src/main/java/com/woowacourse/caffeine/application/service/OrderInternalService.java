@@ -39,15 +39,8 @@ class OrderInternalService {
         this.orderRepository = orderRepository;
     }
 
-    public Order create(final long shopId, final OrderCreateRequest request) {
-        final Shop shop = shopInternalService.findById(shopId);
-        final MenuItem menuItem = menuItemInternalService.findById(request.getMenuItemId());
-        shopNotificationService.send(shopId, "주문이 들어왔습니다.");
-        return orderRepository.save(Order.createOrder(shop, menuItem, request.getCustomerId()));
-    }
-
     // shopId를 찾아서 그 Shop에 대한 Order를 생성하고, Order <=> MenuItem 관계를 맵핑한다
-    public Order create2(final long shopId, final OrderCreateRequest orderCreateRequest) {
+    public Order create(final long shopId, final OrderCreateRequest orderCreateRequest) {
         final Shop shop = shopInternalService.findById(shopId);
         final Order order = orderRepository.save(Order.createOrder2(shop, "1"));
         final List<Long> menuItemsNumber = orderCreateRequest.getMenuItemIds();
