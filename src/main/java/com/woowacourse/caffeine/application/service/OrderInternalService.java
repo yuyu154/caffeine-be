@@ -50,7 +50,7 @@ class OrderInternalService {
     public Order create2(final long shopId, final OrderCreateRequest orderCreateRequest) {
         final Shop shop = shopInternalService.findById(shopId);
         final Order order = orderRepository.save(Order.createOrder2(shop, "1"));
-        final List<Long> menuItemsNumber = orderCreateRequest.getMenuItems();
+        final List<Long> menuItemsNumber = orderCreateRequest.getMenuItemIds();
         for (final Long menuItemId : menuItemsNumber) {
             final MenuItem menuItem = menuItemInternalService.findById(menuItemId);
             final OrderItem orderItem = OrderItem.createOrderItem(order, menuItem);
