@@ -17,7 +17,7 @@ class OrderTest {
     void setUp() {
         Shop shop = new Shop("어디야 커피");
         menuItem = new MenuItem("아메리카노", "Americano", "구수한 아메리카노", 2500, "", "coffee", shop);
-        order = Order.createOrder(shop, menuItem, "");
+        order = Order.createOrder(shop, "");
     }
 
     @Test

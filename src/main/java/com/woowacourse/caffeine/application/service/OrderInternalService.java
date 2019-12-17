@@ -42,7 +42,7 @@ class OrderInternalService {
     // shopId를 찾아서 그 Shop에 대한 Order를 생성하고, Order <=> MenuItem 관계를 맵핑한다
     public Order create(final long shopId, final OrderCreateRequest orderCreateRequest) {
         final Shop shop = shopInternalService.findById(shopId);
-        final Order order = orderRepository.save(Order.createOrder2(shop, "1"));
+        final Order order = orderRepository.save(Order.createOrder(shop, "1"));
         final List<Long> menuItemsNumber = orderCreateRequest.getMenuItemIds();
         for (final Long menuItemId : menuItemsNumber) {
             final MenuItem menuItem = menuItemInternalService.findById(menuItemId);

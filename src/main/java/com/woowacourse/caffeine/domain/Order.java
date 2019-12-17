@@ -44,18 +44,7 @@ public class Order extends BaseTimeEntity {
         this.customerId = customerId;
     }
 
-    private Order(final MenuItem menuItem, final OrderStatus orderStatus, final Shop shop, final String customerId) {
-        this.menuItem = menuItem;
-        this.orderStatus = orderStatus;
-        this.shop = shop;
-        this.customerId = customerId;
-    }
-
-    public static Order createOrder(final Shop shop, final MenuItem menuItem, final String customerId) {
-        return new Order(menuItem, OrderStatus.PENDING, shop, customerId);
-    }
-
-    public static Order createOrder2(final Shop shop, final String customerId) {
+    public static Order createOrder(final Shop shop, final String customerId) {
         return new Order(OrderStatus.PENDING, shop, customerId);
     }
 
