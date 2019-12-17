@@ -67,7 +67,10 @@ public class OrderService {
         final List<Order> orders = orderInternalService.findByStatus(shop, OrderStatus.from(orderStatusName));
 
         return orders.stream()
-            .map(order -> new OrderResponse(order.getId(), order.getOrderStatus().name(), Collections.singletonList(convertToMenuItemResponse(order.getMenuItem()))))
+            .map(order -> new OrderResponse(
+                order.getId(),
+                order.getOrderStatus().name(),
+                Collections.singletonList(convertToMenuItemResponse(order.getMenuItem()))))
             .collect(toList());
     }
 

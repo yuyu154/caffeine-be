@@ -11,7 +11,7 @@ public class OrderItemTest {
     void createOrderItem() {
 
         final Shop shop = ShopResponseRepository.shop1;
-        final Order order = Order.createOrder(shop, null, "1");
+        final Order order = Order.createOrder(shop, "1");
         final MenuItem menuItem = MenuItem.builder()
             .name("name")
             .nameInEnglish("name in english")
