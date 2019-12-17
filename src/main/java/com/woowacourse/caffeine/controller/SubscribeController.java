@@ -30,7 +30,7 @@ public class SubscribeController {
     }
 
     @GetMapping("/shops/{id}")
-    public ResponseBodyEmitter subscribeOwner(@PathVariable Long id ) {
+    public ResponseBodyEmitter subscribeOwner(@PathVariable Long id) {
         return shopNotificationService.subscribe(id);
     }
 }

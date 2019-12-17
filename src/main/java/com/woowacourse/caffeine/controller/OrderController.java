@@ -1,6 +1,5 @@
 package com.woowacourse.caffeine.controller;
 
-import com.woowacourse.caffeine.application.dto.OrderChangeRequest;
 import com.woowacourse.caffeine.application.dto.OrderCreateRequest;
 import com.woowacourse.caffeine.application.dto.OrderResponse;
 import com.woowacourse.caffeine.application.service.OrderService;
@@ -34,8 +33,8 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity createOrder(
-            @PathVariable final long shopId,
-            @RequestBody final OrderCreateRequest orderCreateRequest) {
+        @PathVariable final long shopId,
+        @RequestBody final OrderCreateRequest orderCreateRequest) {
         final OrderResponse orderResponse = orderService.create(shopId, orderCreateRequest);
         return ResponseEntity.created(URI.create(String.format("%s/%d/orders/%d", V1_SHOP, shopId, orderResponse.getId())))
             .build();

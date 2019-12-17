@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <shop id="100"
+          address="서울특별시 송파구 석촌호수로 262 (송파동)"
+          image="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true"
+          name="석촌호수"
+          phone_number="02-758-8693"
+    />
+    <shop id="101"
+          address="서울특별시 송파구 오금로 142 (송파동)"
+          image="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_%EC%86%A1%ED%8C%8C%EA%B5%AC%EC%B2%AD.jpeg?raw=true"
+          name="송파나루역DT"
+          phone_number="02-421-3622"
+    />
+    <shop id="102"
+          address="서울특별시 송파구 오금로 142 (송파동)"
+          image="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_%EC%86%A1%ED%8C%8C%EA%B5%AC%EC%B2%AD.jpeg?raw=true"
+          name="송파나루역DT"
+          phone_number="02-421-3622"
+    />
+
+    <menu_item id="987654321"
+              name="카페라떼"
+              name_in_english="Premium Banana"
+              description="고소한 카페라떼"
+              price="3000"
+              img_url="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_banana.jpeg?raw=true"
+              category="food"
+              shop_id="102"
+    />
+    <menu_item id="987654322"
+               name="고구마라떼"
+               name_in_english="Coffee"
+               description="달달한 라떼"
+               price="3000"
+               img_url="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_banana.jpeg?raw=true"
+               category="beverage"
+               shop_id="102"
+    />
+    <menu_item id="987654323"
+               name="얼음물"
+               name_in_english="Ice Water"
+               description="시원한 물"
+               price="100000"
+               img_url="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_banana.jpeg?raw=true"
+               category="food"
+               shop_id="102"
+    />
+
+    <orders id="987654311"
+            menu_id="987654321"
+            order_status="PENDING"
+            shop_id="102"
+    />
+    <orders id="987654312"
+            menu_id="987654322"
+            order_status="PENDING"
+            shop_id="102"
+    />
+    <orders id="987654313"
+            menu_id="987654321"
+            order_status="IN_PROGRESS"
+            shop_id="102"
+    />
+    <orders id="987654314"
+            menu_id="987654322"
+            order_status="IN_PROGRESS"
+            shop_id="102"
+    />
+    <orders id="987654315"
+            menu_id="987654321"
+            order_status="FINISHED"
+            shop_id="102"
+    />
+    <orders id="987654316"
+            menu_id="987654322"
+            order_status="FINISHED"
+            shop_id="102"
+    />
+    <orders id="987654317"
+            menu_id="987654321"
+            order_status="PENDING"
+            shop_id="102"
+    />
+    <orders id="987654318"
+            menu_id="987654321"
+            order_status="IN_PROGRESS"
+            shop_id="102"
+    />
+</dataset>
