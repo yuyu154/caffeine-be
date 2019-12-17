@@ -63,8 +63,10 @@ public class OrderControllerTest {
     @DisplayName("주문 생성 및 단일 주문 조회")
     void create() {
         final long shopId = 100L;
-        final long menuItemId = 987654321L;
-        EntityExchangeResult<byte[]> result = createOrder(shopId, menuItemId);
+        final long menuItemId1 = 987654321L;
+        final long menuItemId2 = 987654321L;
+        final List<Long> menuItemIds = Arrays.asList(menuItemId1, menuItemId2);
+        EntityExchangeResult<byte[]> result = createOrder(shopId, menuItemIds);
 
         String uri = result.getResponseHeaders().getLocation().toASCIIString();
         assertNotNull(uri);
@@ -80,10 +82,10 @@ public class OrderControllerTest {
         assertNotNull(orderResponse);
     }
 
-    private EntityExchangeResult<byte[]> createOrder(final long shopId, final long menuItemId) {
+    private EntityExchangeResult<byte[]> createOrder(final long shopId, final List<Long> menuItemId) {
         final String url = String.format("%s/%d/orders", V1_SHOP, shopId);
 
-        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(menuItemId, "");
+        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest("", menuItemId);
 
         return webTestClient.post()
             .uri(url)
@@ -121,8 +123,10 @@ public class OrderControllerTest {
     void accept() {
         // given
         final long shopId = 100L;
-        final long menuItemId = 987654321L;
-        String location = createOrder(shopId, menuItemId)
+        final long menuItemId1 = 987654321L;
+        final long menuItemId2 = 987654321L;
+        final List<Long> menuItemIds = Arrays.asList(menuItemId1, menuItemId2);
+        String location = createOrder(shopId, menuItemIds)
             .getResponseHeaders().getLocation().toASCIIString();
 
         // when & then
@@ -139,8 +143,10 @@ public class OrderControllerTest {
     void reject() {
         // given
         final long shopId = 100L;
-        final long menuItemId = 987654321L;
-        String location = createOrder(shopId, menuItemId)
+        final long menuItemId1 = 987654321L;
+        final long menuItemId2 = 987654321L;
+        final List<Long> menuItemIds = Arrays.asList(menuItemId1, menuItemId2);
+        String location = createOrder(shopId, menuItemIds)
             .getResponseHeaders().getLocation().toASCIIString();
 
         // when & then
@@ -157,8 +163,10 @@ public class OrderControllerTest {
     void finish() {
         // given
         final long shopId = 100L;
-        final long menuItemId = 987654321L;
-        String location = createOrder(shopId, menuItemId)
+        final long menuItemId1 = 987654321L;
+        final long menuItemId2 = 987654321L;
+        final List<Long> menuItemIds = Arrays.asList(menuItemId1, menuItemId2);
+        String location = createOrder(shopId, menuItemIds)
             .getResponseHeaders().getLocation().toASCIIString();
 
         // when & then
