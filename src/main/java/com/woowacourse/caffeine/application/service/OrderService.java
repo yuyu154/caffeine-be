@@ -11,7 +11,6 @@ import com.woowacourse.caffeine.domain.Shop;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -55,19 +54,14 @@ public class OrderService {
     public List<OrderResponse> findByStatus(final long shopId, final String orderStatusName) {
         final Shop shop = shopInternalService.findById(shopId);
         final List<Order> orders = orderInternalService.findByStatus(shop, OrderStatus.from(orderStatusName));
-        final List<OrderResponse> results = new ArrayList<>();
 
-        for (final Order order : orders) {
-            final List<MenuItem> menuItems = orderItemInternalService.findMenusByOrder(order);
-            final OrderResponse orderResponse = new OrderResponse(
+        return orders.stream()
+            .map(order -> new OrderResponse(
                 order.getId(),
                 order.getOrderStatus().name(),
-                convertToMenuItemResponses(menuItems)
-            );
-            results.add(orderResponse);
-        }
-
-        return results;
+                convertToMenuItemResponses(orderItemInternalService.findMenusByOrder(order))
+            ))
+            .collect(toList());
     }
 
     public void acceptOrder(final long orderId) {
