@@ -31,8 +31,8 @@ public class OrderControllerTest {
     void create2() {
         final long shopId = 100L;
         final String customerId = "";
-        final long menuItemId1 = 987654321L;
-        final long menuItemId2 = 987654322L;
+        final long menuItemId1 = 1L;
+        final long menuItemId2 = 2L;
         final List<Long> menuItems = Arrays.asList(menuItemId1, menuItemId2);
         final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(customerId, menuItems);
 
@@ -62,8 +62,8 @@ public class OrderControllerTest {
     @DisplayName("주문 생성 및 단일 주문 조회")
     void create() {
         final long shopId = 100L;
-        final long menuItemId1 = 987654321L;
-        final long menuItemId2 = 987654321L;
+        final long menuItemId1 = 1L;
+        final long menuItemId2 = 1L;
         final List<Long> menuItemIds = Arrays.asList(menuItemId1, menuItemId2);
         EntityExchangeResult<byte[]> result = createOrder(shopId, menuItemIds);
 
@@ -81,10 +81,10 @@ public class OrderControllerTest {
         assertNotNull(orderResponse);
     }
 
-    private EntityExchangeResult<byte[]> createOrder(final long shopId, final List<Long> menuItemId) {
+    private EntityExchangeResult<byte[]> createOrder(final long shopId, final List<Long> menuItemIds) {
         final String url = String.format("%s/%d/orders", V1_SHOP, shopId);
 
-        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest("", menuItemId);
+        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest("", menuItemIds);
 
         return webTestClient.post()
             .uri(url)
@@ -122,8 +122,8 @@ public class OrderControllerTest {
     void accept() {
         // given
         final long shopId = 100L;
-        final long menuItemId1 = 987654321L;
-        final long menuItemId2 = 987654321L;
+        final long menuItemId1 = 1L;
+        final long menuItemId2 = 1L;
         final List<Long> menuItemIds = Arrays.asList(menuItemId1, menuItemId2);
         String location = createOrder(shopId, menuItemIds)
             .getResponseHeaders().getLocation().toASCIIString();
@@ -142,8 +142,8 @@ public class OrderControllerTest {
     void reject() {
         // given
         final long shopId = 100L;
-        final long menuItemId1 = 987654321L;
-        final long menuItemId2 = 987654321L;
+        final long menuItemId1 = 1L;
+        final long menuItemId2 = 1L;
         final List<Long> menuItemIds = Arrays.asList(menuItemId1, menuItemId2);
         String location = createOrder(shopId, menuItemIds)
             .getResponseHeaders().getLocation().toASCIIString();
@@ -162,8 +162,8 @@ public class OrderControllerTest {
     void finish() {
         // given
         final long shopId = 100L;
-        final long menuItemId1 = 987654321L;
-        final long menuItemId2 = 987654321L;
+        final long menuItemId1 = 1L;
+        final long menuItemId2 = 1L;
         final List<Long> menuItemIds = Arrays.asList(menuItemId1, menuItemId2);
         String location = createOrder(shopId, menuItemIds)
             .getResponseHeaders().getLocation().toASCIIString();
@@ -187,7 +187,7 @@ public class OrderControllerTest {
     @DisplayName("PENDING -> IN_PROGRESS")
     void changePendingToProgress() {
         final long shopId = 100L;
-        final long orderId = 987654317L;
+        final long orderId = 1L;
         final OrderChangeRequest orderChangeRequest = new OrderChangeRequest(OrderStatus.IN_PROGRESS.toString());
 
         webTestClient.put()
