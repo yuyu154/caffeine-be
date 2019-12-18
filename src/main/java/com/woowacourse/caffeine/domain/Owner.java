@@ -1,10 +1,10 @@
 package com.woowacourse.caffeine.domain;
 
+import com.woowacourse.caffeine.domain.exception.InvalidEmailException;
 import com.woowacourse.caffeine.domain.exception.InvalidPasswordException;
 import com.woowacourse.caffeine.domain.exception.InvalidShopAddressException;
-import com.woowacourse.caffeine.domain.exception.PasswordMisMatchException;
-import com.woowacourse.caffeine.domain.exception.InvalidEmailException;
 import com.woowacourse.caffeine.domain.exception.InvalidShopNameException;
+import com.woowacourse.caffeine.domain.exception.PasswordMisMatchException;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.Column;
