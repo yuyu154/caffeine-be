@@ -60,7 +60,8 @@ class OrderInternalService {
     }
 
     @Transactional(readOnly = true)
-    public List<Order> findByStatus(final Shop shop, final OrderStatus status) {
+    public List<Order> findByStatus(final long shopId, final OrderStatus status) {
+        final Shop shop = shopInternalService.findById(shopId);
         return orderRepository.findByShopAndOrderStatus(shop, status);
     }
 

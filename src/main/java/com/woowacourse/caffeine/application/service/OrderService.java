@@ -7,7 +7,6 @@ import com.woowacourse.caffeine.application.dto.OrderResponse;
 import com.woowacourse.caffeine.domain.MenuItem;
 import com.woowacourse.caffeine.domain.Order;
 import com.woowacourse.caffeine.domain.OrderStatus;
-import com.woowacourse.caffeine.domain.Shop;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +17,12 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class OrderService {
 
-    private final ShopInternalService shopInternalService;
     private final OrderInternalService orderInternalService;
     private final OrderItemInternalService orderItemInternalService;
 
-    public OrderService(final ShopInternalService shopInternalService,
-                        final OrderInternalService orderInternalService,
+    public OrderService(final OrderInternalService orderInternalService,
                         final OrderItemInternalService orderItemInternalService) {
         this.orderInternalService = orderInternalService;
-        this.shopInternalService = shopInternalService;
         this.orderItemInternalService = orderItemInternalService;
     }
 
@@ -49,12 +45,13 @@ public class OrderService {
             .collect(toList());
     }
 
-    // orderInternalService.findByStatus(shopId, OrderStatus.from(orderStatusName) 고려
     @Transactional(readOnly = true)
     public List<OrderResponse> findByStatus(final long shopId, final String orderStatusName) {
-        final Shop shop = shopInternalService.findById(shopId);
-        final List<Order> orders = orderInternalService.findByStatus(shop, OrderStatus.from(orderStatusName));
+        final List<Order> orders = orderInternalService.findByStatus(shopId, OrderStatus.from(orderStatusName));
+        return convertToOrderResponses(orders);
+    }
 
+    private List<OrderResponse> convertToOrderResponses(final List<Order> orders) {
         return orders.stream()
             .map(order -> new OrderResponse(
                 order.getId(),
