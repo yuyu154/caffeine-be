@@ -4,6 +4,7 @@ import com.woowacourse.caffeine.application.dto.OrderCreateRequest;
 import com.woowacourse.caffeine.application.exception.OrderNotFoundException;
 import com.woowacourse.caffeine.domain.MenuItem;
 import com.woowacourse.caffeine.domain.Order;
+import com.woowacourse.caffeine.domain.OrderItem;
 import com.woowacourse.caffeine.domain.OrderStatus;
 import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.repository.OrderRepository;
@@ -20,6 +21,7 @@ class OrderInternalService {
     private final MenuItemInternalService menuItemInternalService;
     private final ShopNotificationService shopNotificationService;
     private final CustomerNotificationService customerNotificationService;
+    private final OrderItemInternalService orderItemInternalService;
 
     private final OrderRepository orderRepository;
 
@@ -27,19 +29,27 @@ class OrderInternalService {
                                 final MenuItemInternalService menuItemInternalService,
                                 final ShopNotificationService shopNotificationService,
                                 final CustomerNotificationService customerNotificationService,
+                                final OrderItemInternalService orderItemInternalService,
                                 final OrderRepository orderRepository) {
         this.shopInternalService = shopInternalService;
         this.menuItemInternalService = menuItemInternalService;
         this.shopNotificationService = shopNotificationService;
         this.customerNotificationService = customerNotificationService;
+        this.orderItemInternalService = orderItemInternalService;
         this.orderRepository = orderRepository;
     }
 
-    public Order create(final long shopId, final OrderCreateRequest request) {
+    public Order create(final long shopId, final OrderCreateRequest orderCreateRequest) {
         final Shop shop = shopInternalService.findById(shopId);
-        final MenuItem menuItem = menuItemInternalService.findById(request.getMenuItemId());
-        shopNotificationService.send(shopId, "주문이 들어왔습니다.");
-        return orderRepository.save(Order.createOrder(shop, menuItem, request.getCustomerId()));
+        final Order order = orderRepository.save(Order.createOrder(shop, "1"));
+        final List<Long> menuItemsNumber = orderCreateRequest.getMenuItemIds();
+        for (final Long menuItemId : menuItemsNumber) {
+            final MenuItem menuItem = menuItemInternalService.findById(menuItemId);
+            final OrderItem orderItem = OrderItem.createOrderItem(order, menuItem);
+            orderItemInternalService.save(orderItem);
+        }
+        shopNotificationService.send(shopId, "주문이 들어왔습니다");
+        return order;
     }
 
     @Transactional(readOnly = true)
@@ -49,7 +59,8 @@ class OrderInternalService {
     }
 
     @Transactional(readOnly = true)
-    public List<Order> findByStatus(final Shop shop, final OrderStatus status) {
+    public List<Order> findByStatus(final long shopId, final OrderStatus status) {
+        final Shop shop = shopInternalService.findById(shopId);
         return orderRepository.findByShopAndOrderStatus(shop, status);
     }
 
