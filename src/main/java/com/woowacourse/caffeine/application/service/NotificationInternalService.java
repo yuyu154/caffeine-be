@@ -10,11 +10,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 class NotificationInternalService<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationInternalService.class);
+
+    private static final long TIMEOUT_IN_MINUTE = 3l;
 
     private final Map<T, ResponseBodyEmitter> subscriptions = new HashMap<>();
     private final Map<T, Queue<String>> pendingMessages = new HashMap<>();
@@ -35,7 +38,7 @@ class NotificationInternalService<T> {
     }
 
     private ResponseBodyEmitter createSseEmitter(final T id) {
-        ResponseBodyEmitter emitter = new SseEmitter();
+        ResponseBodyEmitter emitter = new SseEmitter(TimeUnit.MINUTES.toMillis(TIMEOUT_IN_MINUTE));
         emitter.onCompletion(onComplete(id));
         emitter.onTimeout(onTimeout(id));
         emitter.onError(onError(id));
@@ -52,14 +55,14 @@ class NotificationInternalService<T> {
     private Runnable onComplete(final T id) {
         return () -> {
             logger.info("Client[{}] is on complete", id);
-            subscriptions.remove(id);
+            logger.debug("removed: {}", subscriptions.remove(id));
         };
     }
 
     private Runnable onTimeout(final T id) {
         return () -> {
             logger.info("Client[{}] is on timeout", id);
-            subscriptions.remove(id);
+            logger.debug("removed: {}", subscriptions.remove(id));
         };
     }
 
@@ -93,5 +96,10 @@ class NotificationInternalService<T> {
     private void putPendingMessage(final T id, final String message) {
         pendingMessages.computeIfAbsent(id, k -> new LinkedList<>());
         pendingMessages.get(id).add(message);
+    }
+
+    public void sendAll(String message) {
+        subscriptions.keySet().stream()
+                .forEach(customerId -> send(customerId, message));
     }
 }
