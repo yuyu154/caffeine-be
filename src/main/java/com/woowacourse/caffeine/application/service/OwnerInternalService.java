@@ -2,11 +2,12 @@ package com.woowacourse.caffeine.application.service;
 
 import com.woowacourse.caffeine.application.converter.OwnerConverter;
 import com.woowacourse.caffeine.application.dto.LoginRequest;
-import com.woowacourse.caffeine.application.dto.OwnerResponse;
+import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.SignUpRequest;
 import com.woowacourse.caffeine.application.exception.EmailDuplicateException;
 import com.woowacourse.caffeine.application.exception.OwnerNotFoundException;
 import com.woowacourse.caffeine.domain.Owner;
+import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,16 +18,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class OwnerInternalService {
 
     private final OwnerRepository ownerRepository;
+    private final ShopInternalService shopInternalService;
 
-    public OwnerInternalService(final OwnerRepository ownerRepository) {
+    public OwnerInternalService(final OwnerRepository ownerRepository, final ShopInternalService shopInternalService) {
         this.ownerRepository = ownerRepository;
+        this.shopInternalService = shopInternalService;
     }
 
-    public Long save(final SignUpRequest signUpRequest) {
-        if(ownerRepository.findByEmail(signUpRequest.getEmail()).isPresent()) {
+    public Long save(final SignUpRequest signUpRequest, final ShopCreateRequest shopCreateRequest) {
+        if (ownerRepository.findByEmail(signUpRequest.getEmail()).isPresent()) {
             throw new EmailDuplicateException();
         }
-        Owner owner = OwnerConverter.convertToEntity(signUpRequest);
+
+        Shop shop = shopInternalService.createShop(shopCreateRequest);
+        Owner owner = OwnerConverter.convertToEntity(signUpRequest, shop);
         return ownerRepository.save(owner).getId();
     }
 
@@ -39,9 +44,8 @@ public class OwnerInternalService {
     }
 
     @Transactional(readOnly = true)
-    public OwnerResponse findByEmail(final String email) {
-        Owner owner = ownerRepository.findByEmail(email)
+    public Owner findByEmail(final String email) {
+        return ownerRepository.findByEmail(email)
             .orElseThrow(OwnerNotFoundException::new);
-        return OwnerConverter.convertToResponse(owner);
     }
 }

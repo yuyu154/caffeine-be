@@ -1,4 +1,4 @@
-package com.woowacourse.caffeine.controller;
+package com.woowacourse.caffeine.presentation.controller;
 
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.dto.ShopResponse;
@@ -13,7 +13,7 @@ import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
+import static com.woowacourse.caffeine.presentation.controller.ShopController.V1_SHOP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

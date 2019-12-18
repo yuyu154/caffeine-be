@@ -17,11 +17,9 @@ import static java.util.stream.Collectors.toList;
 public class ShopService {
 
     private final ShopInternalService shopInternalService;
-    private final ShopConverter shopConverter;
 
-    public ShopService(final ShopInternalService shopInternalService, final ShopConverter shopConverter) {
+    public ShopService(ShopInternalService shopInternalService) {
         this.shopInternalService = shopInternalService;
-        this.shopConverter = shopConverter;
     }
 
     public ShopResponse createShop(final ShopCreateRequest request) {
@@ -46,6 +44,6 @@ public class ShopService {
     }
 
     private ShopResponse convertToShopResponse(final Shop shop) {
-        return shopConverter.convertToDto(shop);
+        return ShopConverter.convertToDto(shop);
     }
 }

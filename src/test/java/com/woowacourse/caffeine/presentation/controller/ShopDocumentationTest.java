@@ -1,4 +1,4 @@
-package com.woowacourse.caffeine.controller;
+package com.woowacourse.caffeine.presentation.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Collections;
 
-import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
+import static com.woowacourse.caffeine.presentation.controller.ShopController.V1_SHOP;
 import static com.woowacourse.caffeine.utils.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.caffeine.utils.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;

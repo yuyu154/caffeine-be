@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.regex.Pattern;
 
 @Entity
@@ -20,17 +21,11 @@ public class Owner {
     private static final String SHOP_NAME_REGEX = "^[a-zA-Z0-9가-힣\\s]{1,20}$";
     private static final String SHOP_ADDRESS_REGEX = "^[a-zA-Z0-9가-힣\\s()]{1,100}$";
     private static final String EMAIL_REGEX = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
-    private static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*#?&])[A-Za-zd$@$!%*#?&]{8,}$";
+    private static final String PASSWORD_REGEX = "^(?=.*\\d{1,50})(?=.*[~`!@#$%\\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String shopName;
-
-    @Column(nullable = false)
-    private String shopAddress;
 
     @Column(nullable = false)
     private String email;
@@ -38,23 +33,21 @@ public class Owner {
     @Column(nullable = false)
     private String password;
 
-    public Owner(final String shopName, final String shopAddress, final String email, final String password) {
-        String trimedName = shopName.trim();
-        String trimedShopAddress = shopAddress.trim();
+    @OneToOne
+    private Shop shop;
+
+    public Owner(final String email, final String password, final Shop shop) {
         String trimedEmail = email.trim();
-        checkValid(trimedName, trimedShopAddress, trimedEmail, password);
-        this.shopName = trimedName;
-        this.shopAddress = trimedShopAddress;
+        checkValid(trimedEmail, password);
         this.email = trimedEmail;
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.shop = shop;
     }
 
     protected Owner() {
     }
 
-    private void checkValid(final String shopName, final String shopAddress, final String email, final String password) {
-        checkShopName(shopName);
-        checkShopAddress(shopAddress);
+    private void checkValid(final String email, final String password) {
         checkEmail(email);
         checkPassword(password);
     }
@@ -93,15 +86,11 @@ public class Owner {
         return id;
     }
 
-    public String getShopName() {
-        return shopName;
-    }
-
-    public String getShopAddress() {
-        return shopAddress;
-    }
-
     public String getEmail() {
         return email;
+    }
+
+    public Shop getShop() {
+        return shop;
     }
 }

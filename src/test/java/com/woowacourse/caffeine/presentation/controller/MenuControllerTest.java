@@ -1,4 +1,4 @@
-package com.woowacourse.caffeine.controller;
+package com.woowacourse.caffeine.presentation.controller;
 
 import com.woowacourse.caffeine.application.dto.MenuCreateRequest;
 import com.woowacourse.caffeine.application.dto.MenuItemUpdateRequest;
@@ -11,7 +11,7 @@ import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-import static com.woowacourse.caffeine.controller.MenuController.V1_MENU;
+import static com.woowacourse.caffeine.presentation.controller.MenuController.V1_MENU;
 
 @WebTestClientWithDbUnitTest
 public class MenuControllerTest {

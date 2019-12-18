@@ -1,4 +1,4 @@
-package com.woowacourse.caffeine.controller;
+package com.woowacourse.caffeine.presentation.controller;
 
 import com.woowacourse.caffeine.application.dto.MenuItemResponse;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;

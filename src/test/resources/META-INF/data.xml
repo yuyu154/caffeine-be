@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataset>
-    <owner id="10"
-           shop_name="어디야 커피 잠실점"
-           shop_address="서울특별시 송파구 석촌호수로 262 (송파동)"
-           email="kangmin789@naver.com"
-           password="$2a$10$zkX.xhqer46J8nrw2xTatePBGWroofdwjhzYpyWUY53Zh1IPy7xAe"
-    />
     <shop id="100"
           address="서울특별시 송파구 석촌호수로 262 (송파동)"
           image="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true"
@@ -25,6 +19,11 @@
           phone_number="02-421-3622"
     />
 
+    <owner id="10"
+           email="kangmin789@naver.com"
+           password="$2a$10$ZG93UBm3ykO/rs3Rovh2Bud2L5gOdhxK2HvaUR4VHeKTg2mexGnfW"
+           shop_id="100"
+    />
     <menu_item id="1"
               name="카페라떼"
               name_in_english="Premium Banana"
