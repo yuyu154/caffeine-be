@@ -17,9 +17,9 @@ import static com.woowacourse.caffeine.controller.MenuController.V1_MENU;
 public class MenuControllerTest {
 
     private static final long DEFAULT_SHOP_ID = 102L;
-    private static final long DEFAULT_MENU_ID = 987654321L;
-    private static final long UPDATE_MENU_ID = 987654322L;
-    private static final long DELETE_MENU_ID = 987654323L;
+    private static final long DEFAULT_MENU_ID = 1L;
+    private static final long UPDATE_MENU_ID = 2L;
+    private static final long DELETE_MENU_ID = 3L;
 
     @Autowired
     private WebTestClient webTestClient;

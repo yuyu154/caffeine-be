@@ -25,16 +25,16 @@
           phone_number="02-421-3622"
     />
 
-    <menu_item id="987654321"
-               name="카페라떼"
-               name_in_english="Premium Banana"
-               description="고소한 카페라떼"
-               price="3000"
-               img_url="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_banana.jpeg?raw=true"
-               category="food"
-               shop_id="102"
+    <menu_item id="1"
+              name="카페라떼"
+              name_in_english="Premium Banana"
+              description="고소한 카페라떼"
+              price="3000"
+              img_url="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_banana.jpeg?raw=true"
+              category="food"
+              shop_id="102"
     />
-    <menu_item id="987654322"
+    <menu_item id="2"
                name="고구마라떼"
                name_in_english="Coffee"
                description="달달한 라떼"
@@ -43,7 +43,7 @@
                category="beverage"
                shop_id="102"
     />
-    <menu_item id="987654323"
+    <menu_item id="3"
                name="얼음물"
                name_in_english="Ice Water"
                description="시원한 물"
@@ -53,44 +53,70 @@
                shop_id="102"
     />
 
-    <orders id="987654311"
-            menu_id="987654321"
+    <orders id="1"
             order_status="PENDING"
             shop_id="102"
     />
-    <orders id="987654312"
-            menu_id="987654322"
-            order_status="PENDING"
-            shop_id="102"
-    />
-    <orders id="987654313"
-            menu_id="987654321"
+    <orders id="2"
             order_status="IN_PROGRESS"
             shop_id="102"
     />
-    <orders id="987654314"
-            menu_id="987654322"
-            order_status="IN_PROGRESS"
-            shop_id="102"
-    />
-    <orders id="987654315"
-            menu_id="987654321"
+    <orders id="3"
             order_status="FINISHED"
             shop_id="102"
     />
-    <orders id="987654316"
-            menu_id="987654322"
-            order_status="FINISHED"
-            shop_id="102"
-    />
-    <orders id="987654317"
-            menu_id="987654321"
+    <orders id="4"
             order_status="PENDING"
             shop_id="102"
     />
-    <orders id="987654318"
-            menu_id="987654321"
+    <orders id="5"
+            order_status="PENDING"
+            shop_id="102"
+    />
+    <orders id="6"
             order_status="IN_PROGRESS"
             shop_id="102"
+    />
+    <orders id="7"
+            order_status="IN_PROGRESS"
+            shop_id="102"
+    />
+    <orders id="8"
+            order_status="FINISHED"
+            shop_id="102"
+    />
+
+
+    <order_item id="1"
+                order_id="1"
+                menu_item_id="1"
+    />
+    <order_item id="2"
+                order_id="1"
+                menu_item_id="2"
+    />
+    <order_item id="3"
+                order_id="2"
+                menu_item_id="1"
+    />
+    <order_item id="4"
+                order_id="2"
+                menu_item_id="2"
+    />
+    <order_item id="5"
+                order_id="3"
+                menu_item_id="1"
+    />
+    <order_item id="6"
+                order_id="3"
+                menu_item_id="2"
+    />
+    <order_item id="7"
+                order_id="1"
+                menu_item_id="1"
+    />
+    <order_item id="8"
+                order_id="2"
+                menu_item_id="1"
     />
 </dataset>

@@ -21,10 +21,6 @@ public class Order extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "menu_id")
-    private MenuItem menuItem;
-
     @Enumerated(value = EnumType.STRING)
     @Column(name = "order_status", nullable = false)
     private OrderStatus orderStatus;
@@ -74,10 +70,6 @@ public class Order extends BaseTimeEntity {
 
     public Long getId() {
         return id;
-    }
-
-    public MenuItem getMenuItem() {
-        return menuItem;
     }
 
     public Shop getShop() {
