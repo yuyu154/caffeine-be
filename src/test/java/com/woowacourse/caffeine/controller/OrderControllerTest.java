@@ -16,7 +16,6 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.woowacourse.caffeine.controller.OrderController.V1_ORDER;
 import static com.woowacourse.caffeine.controller.ShopController.V1_SHOP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -184,14 +183,15 @@ public class OrderControllerTest {
             .expectStatus().isOk();
     }
 
-    //    @Test
+    @Test
     @DisplayName("PENDING -> IN_PROGRESS")
     void changePendingToProgress() {
+        final long shopId = 100L;
         final long orderId = 987654317L;
         final OrderChangeRequest orderChangeRequest = new OrderChangeRequest(OrderStatus.IN_PROGRESS.toString());
 
         webTestClient.put()
-            .uri(V1_ORDER + "/" + orderId)
+            .uri(String.format("%s/%d/orders/%d/accept", V1_SHOP, shopId, orderId))
             .contentType(MediaType.APPLICATION_JSON)
             .body(Mono.just(orderChangeRequest), OrderChangeRequest.class)
             .exchange()
