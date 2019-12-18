@@ -1,5 +1,6 @@
 package com.woowacourse.caffeine.application.service;
 
+import com.woowacourse.caffeine.application.converter.MenuItemConverter;
 import com.woowacourse.caffeine.application.dto.MenuItemResponse;
 import com.woowacourse.caffeine.application.dto.OrderCreateRequest;
 import com.woowacourse.caffeine.application.dto.OrderResponse;
@@ -35,17 +36,6 @@ public class OrderService {
         return order.getId();
     }
 
-    private MenuItemResponse convertToMenuItemResponse(final MenuItem menuItem) {
-        return new MenuItemResponse(
-            menuItem.getId(),
-            menuItem.getName(),
-            menuItem.getNameInEnglish(),
-            menuItem.getDescription(),
-            menuItem.getPrice(),
-            menuItem.getImgUrl(),
-            menuItem.getCategory());
-    }
-
     @Transactional(readOnly = true)
     public OrderResponse findById(final Long orderId) {
         final Order order = orderInternalService.findById(orderId);
@@ -56,7 +46,7 @@ public class OrderService {
 
     private List<MenuItemResponse> convertToMenuItemResponses(final List<MenuItem> menuItems) {
         return menuItems.stream()
-            .map(this::convertToMenuItemResponse)
+            .map(MenuItemConverter::convertToResponse)
             .collect(toList());
     }
 
