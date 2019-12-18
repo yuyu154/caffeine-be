@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataset>
+    <owner id="10"
+           shop_name="어디야 커피 잠실점"
+           shop_address="서울특별시 송파구 석촌호수로 262 (송파동)"
+           email="kangmin789@naver.com"
+           password="$2a$10$zkX.xhqer46J8nrw2xTatePBGWroofdwjhzYpyWUY53Zh1IPy7xAe"
+    />
     <shop id="100"
           address="서울특별시 송파구 석촌호수로 262 (송파동)"
           image="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true"
@@ -20,13 +26,13 @@
     />
 
     <menu_item id="987654321"
-              name="카페라떼"
-              name_in_english="Premium Banana"
-              description="고소한 카페라떼"
-              price="3000"
-              img_url="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_banana.jpeg?raw=true"
-              category="food"
-              shop_id="102"
+               name="카페라떼"
+               name_in_english="Premium Banana"
+               description="고소한 카페라떼"
+               price="3000"
+               img_url="https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/starbucks_banana.jpeg?raw=true"
+               category="food"
+               shop_id="102"
     />
     <menu_item id="987654322"
                name="고구마라떼"
