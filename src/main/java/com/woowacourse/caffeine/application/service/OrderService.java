@@ -10,7 +10,7 @@ import com.woowacourse.caffeine.domain.Shop;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -18,12 +18,12 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class OrderService {
 
-    private final OrderInternalService orderInternalService;
     private final ShopInternalService shopInternalService;
+    private final OrderInternalService orderInternalService;
     private final OrderItemInternalService orderItemInternalService;
 
-    public OrderService(final OrderInternalService orderInternalService,
-                        final ShopInternalService shopInternalService,
+    public OrderService(final ShopInternalService shopInternalService,
+                        final OrderInternalService orderInternalService,
                         final OrderItemInternalService orderItemInternalService) {
         this.orderInternalService = orderInternalService;
         this.shopInternalService = shopInternalService;
@@ -65,13 +65,19 @@ public class OrderService {
     public List<OrderResponse> findByStatus(final long shopId, final String orderStatusName) {
         final Shop shop = shopInternalService.findById(shopId);
         final List<Order> orders = orderInternalService.findByStatus(shop, OrderStatus.from(orderStatusName));
+        final List<OrderResponse> results = new ArrayList<>();
 
-        return orders.stream()
-            .map(order -> new OrderResponse(
+        for (final Order order : orders) {
+            final List<MenuItem> menuItems = orderItemInternalService.findMenusByOrder(order);
+            final OrderResponse orderResponse = new OrderResponse(
                 order.getId(),
                 order.getOrderStatus().name(),
-                Collections.singletonList(convertToMenuItemResponse(order.getMenuItem()))))
-            .collect(toList());
+                convertToMenuItemResponses(menuItems)
+            );
+            results.add(orderResponse);
+        }
+
+        return results;
     }
 
     public void acceptOrder(final long orderId) {
