@@ -6,7 +6,7 @@ public class ErrorResponseException extends RuntimeException {
 
     private final HttpStatus status;
 
-    public ErrorResponseException(String message, HttpStatus status) {
+    public ErrorResponseException(final String message, final HttpStatus status) {
         super(message);
         this.status = status;
     }

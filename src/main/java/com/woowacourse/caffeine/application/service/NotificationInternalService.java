@@ -100,6 +100,6 @@ class NotificationInternalService<T> {
 
     public void sendAll(String message) {
         subscriptions.keySet().stream()
-                .forEach(customerId -> send(customerId, message));
+            .forEach(customerId -> send(customerId, message));
     }
 }
