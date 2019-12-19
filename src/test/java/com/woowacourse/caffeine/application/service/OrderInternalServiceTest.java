@@ -60,7 +60,7 @@ public class OrderInternalServiceTest {
         final long shopId = 102L;
         final long menuItemId = 100L;
         final long menuItemId2 = 101L;
-        final Order order = Order.createOrder(shop, "");
+        final Order order = Order.createOrder(shop, " ");
         final List<Long> menuItems = Arrays.asList(menuItemId, menuItemId2);
         final OrderItem orderItem = OrderItem.createOrderItem(order, menuItem);
 
@@ -68,10 +68,10 @@ public class OrderInternalServiceTest {
         when(menuItemInternalService.findById(menuItemId)).thenReturn(menuItem);
         when(menuItemInternalService.findById(menuItemId2)).thenReturn(menuItem);
         when(orderItemInternalService.save(any())).thenReturn(orderItem);
-        when(orderRepository.save(any())).thenReturn(Order.createOrder(shop, ""));
+        when(orderRepository.save(any())).thenReturn(Order.createOrder(shop, " "));
 
         // when
-        Order created = orderInternalService.create(shopId, new OrderCreateRequest("", menuItems));
+        Order created = orderInternalService.create(shopId, new OrderCreateRequest(menuItems), " ");
 
         // then
         assertThat(created.getShop().getName()).isEqualTo(shopName);

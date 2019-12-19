@@ -34,7 +34,7 @@ public class OrderControllerTest {
         final long menuItemId1 = 1L;
         final long menuItemId2 = 2L;
         final List<Long> menuItems = Arrays.asList(menuItemId1, menuItemId2);
-        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(customerId, menuItems);
+        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(menuItems);
 
 
         final String uri = webTestClient.post()
@@ -84,7 +84,7 @@ public class OrderControllerTest {
     private EntityExchangeResult<byte[]> createOrder(final long shopId, final List<Long> menuItemIds) {
         final String url = String.format("%s/%d/orders", V1_SHOP, shopId);
 
-        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest("", menuItemIds);
+        final OrderCreateRequest orderCreateRequest = new OrderCreateRequest(menuItemIds);
 
         return webTestClient.post()
             .uri(url)

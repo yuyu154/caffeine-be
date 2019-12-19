@@ -26,8 +26,9 @@ public class OrderService {
         this.orderItemInternalService = orderItemInternalService;
     }
 
-    public long create(final long shopId, final OrderCreateRequest orderCreateRequest) {
-        final Order order = orderInternalService.create(shopId, orderCreateRequest);
+    public long create(final long shopId, final OrderCreateRequest orderCreateRequest, final String customerId) {
+
+        final Order order = orderInternalService.create(shopId, orderCreateRequest, customerId);
         return order.getId();
     }
 

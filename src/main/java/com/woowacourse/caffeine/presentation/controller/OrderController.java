@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.util.List;
 
@@ -33,8 +34,10 @@ public class OrderController {
     @PostMapping
     public ResponseEntity createOrder(
         @PathVariable final long shopId,
-        @RequestBody final OrderCreateRequest orderCreateRequest) {
-        final long orderId = orderService.create(shopId, orderCreateRequest);
+        @RequestBody final OrderCreateRequest orderCreateRequest,
+        final HttpSession httpSession) {
+        final String customerId = httpSession.getId();
+        final long orderId = orderService.create(shopId, orderCreateRequest, customerId);
         return ResponseEntity.created(URI.create(String.format("%s/%d/orders/%d", V1_SHOP, shopId, orderId)))
             .build();
     }
