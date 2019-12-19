@@ -21,10 +21,6 @@ public class Order extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "menu_id", nullable = false)
-    private MenuItem menuItem;
-
     @Enumerated(value = EnumType.STRING)
     @Column(name = "order_status", nullable = false)
     private OrderStatus orderStatus;
@@ -38,15 +34,14 @@ public class Order extends BaseTimeEntity {
     protected Order() {
     }
 
-    private Order(final MenuItem menuItem, final OrderStatus orderStatus, final Shop shop, final String customerId) {
-        this.menuItem = menuItem;
+    public Order(final OrderStatus orderStatus, final Shop shop, final String customerId) {
         this.orderStatus = orderStatus;
         this.shop = shop;
         this.customerId = customerId;
     }
 
-    public static Order createOrder(final Shop shop, final MenuItem menuItem, final String customerId) {
-        return new Order(menuItem, OrderStatus.PENDING, shop, customerId);
+    public static Order createOrder(final Shop shop, final String customerId) {
+        return new Order(OrderStatus.PENDING, shop, customerId);
     }
 
     public void accept() {
@@ -75,10 +70,6 @@ public class Order extends BaseTimeEntity {
 
     public Long getId() {
         return id;
-    }
-
-    public MenuItem getMenuItem() {
-        return menuItem;
     }
 
     public Shop getShop() {

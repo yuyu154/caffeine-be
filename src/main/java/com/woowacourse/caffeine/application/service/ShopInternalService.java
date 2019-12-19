@@ -23,11 +23,13 @@ class ShopInternalService {
         return shopRepository.save(Shop.create(shopCreateRequest));
     }
 
+    @Transactional(readOnly = true)
     public Shop findById(final Long id) {
         return shopRepository.findById(id)
             .orElseThrow(() -> new ShopNotFoundException(id));
     }
 
+    @Transactional(readOnly = true)
     public List<Shop> findAll() {
         return shopRepository.findAll();
     }

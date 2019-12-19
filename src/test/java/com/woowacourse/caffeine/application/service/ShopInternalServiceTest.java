@@ -1,19 +1,16 @@
 package com.woowacourse.caffeine.application.service;
 
-import com.woowacourse.caffeine.application.converter.ShopConverter;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
 import com.woowacourse.caffeine.application.exception.ShopNotFoundException;
 import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.mock.ShopRequestRepository;
 import com.woowacourse.caffeine.mock.ShopResponseRepository;
 import com.woowacourse.caffeine.repository.ShopRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +30,6 @@ public class ShopInternalServiceTest {
 
     @InjectMocks
     private ShopInternalService shopInternalService;
-
-    private ShopConverter shopConverter;
-
-    @BeforeEach
-    void setUp() {
-        shopConverter = new ShopConverter(new ModelMapper());
-    }
 
     @Test
     void create() {

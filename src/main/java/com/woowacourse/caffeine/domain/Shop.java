@@ -1,6 +1,7 @@
 package com.woowacourse.caffeine.domain;
 
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
+import com.woowacourse.caffeine.application.dto.SignUpRequest;
 import com.woowacourse.caffeine.domain.exception.InvalidShopNameException;
 import org.springframework.util.StringUtils;
 
@@ -16,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.woowacourse.caffeine.presentation.controller.OwnerController.DEFAULT_IMAGE;
+import static com.woowacourse.caffeine.presentation.controller.OwnerController.DEFAULT_PHONE_NUMBER;
+
 @Entity
 public class Shop extends BaseTimeEntity {
-    private static final String DEFAULT_IMAGE =
-        "https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/" +
-            "starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +66,10 @@ public class Shop extends BaseTimeEntity {
             shopCreateRequest.getImage(),
             shopCreateRequest.getAddress(),
             shopCreateRequest.getPhoneNumber());
+    }
+
+    public static Shop createWithoutImage(SignUpRequest signUpRequest) {
+        return new Shop(signUpRequest.getShopName(), DEFAULT_IMAGE, signUpRequest.getShopAddress(), DEFAULT_PHONE_NUMBER);
     }
 
     private void checkName(final String name) {
