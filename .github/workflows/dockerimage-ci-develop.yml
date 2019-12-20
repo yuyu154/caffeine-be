@@ -1,0 +1,22 @@
+name: CI-Backend-User
+
+on:
+    push:
+        branches: $USERNAME
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v1
+            - name: execute build
+              run: |
+                  docker build . --file Dockerfile --tag $USERNAME/be:latest
+            - name: docker login
+              run: |
+                  docker login -u ${{secrets.DOCKER_USER_NAME}} --password ${{secrets.DOCKER_USER_PASSWORD}}
+                  docker push $USERNAME/be:latest
+            - name: check
+              run: |
+                  echo $USERNAME
+                  echo $REPONAME
