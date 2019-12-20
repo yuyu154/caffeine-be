@@ -2,7 +2,7 @@ name: CI-Backend-User
 
 on:
     push:
-        branches: $USERNAME
+        branches: yuyu154
 jobs:
     build:
         runs-on: ubuntu-latest
