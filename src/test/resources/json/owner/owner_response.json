@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "email": "test@mail.com",
+  "shop": {
+    "id": 2,
+    "name": "name",
+    "image": "https://github.com/image",
+    "address": "서울시 송파구 오금로",
+    "phoneNumber": "010-111-1111"
+  }
+}

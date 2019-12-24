@@ -1,4 +1,4 @@
-package com.woowacourse.caffeine.presentation.controller;
+package com.woowacourse.caffeine.presentation.controller.documentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
@@ -7,6 +7,7 @@ import com.woowacourse.caffeine.application.dto.ShopResponses;
 import com.woowacourse.caffeine.application.service.MenuItemService;
 import com.woowacourse.caffeine.application.service.ShopService;
 import com.woowacourse.caffeine.mock.ShopResponseRepository;
+import com.woowacourse.caffeine.presentation.controller.ShopController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

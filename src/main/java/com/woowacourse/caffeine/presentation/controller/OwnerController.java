@@ -27,7 +27,7 @@ public class OwnerController {
         "https://github.com/eunsukko/TIL/blob/master/201912/caffeine/pictures/" +
             "starbucks_%EC%84%9D%EC%B4%8C%ED%98%B8%EC%88%98.jpg?raw=true";
     public static final String DEFAULT_PHONE_NUMBER = "010-3080-5610";
-    public static final String V1_OWNER = "v1/owners";
+    public static final String V1_OWNER = "/v1/owners";
     private static final String SESSION_KEY = "email";
 
     private final OwnerService ownerService;

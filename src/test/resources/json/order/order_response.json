@@ -1,0 +1,24 @@
+{
+  "id": "1",
+  "status": "PENDING",
+  "orderItems": [
+    {
+      "id": 1,
+      "name": "name",
+      "nameInEnglish": "nameInEnglish",
+      "description": "설명",
+      "price": 5000,
+      "image": "https://github.com/image.jpeg",
+      "category": "COFFEE"
+    },
+    {
+      "id": 2,
+      "name": "name",
+      "nameInEnglish": "nameInEnglish",
+      "description": "설명",
+      "price": 6000,
+      "image": "https://github.com/image.jpeg",
+      "category": "COFFEE"
+    }
+  ]
+}
