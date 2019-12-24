@@ -3,10 +3,13 @@ package com.woowacourse.caffeine.presentation.controller;
 import com.woowacourse.caffeine.application.dto.OrderChangeRequest;
 import com.woowacourse.caffeine.application.dto.OrderCreateRequest;
 import com.woowacourse.caffeine.application.dto.OrderResponse;
+import com.woowacourse.caffeine.application.service.NotificationInternalService;
 import com.woowacourse.caffeine.dbunit.WebTestClientWithDbUnitTest;
 import com.woowacourse.caffeine.domain.OrderStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
@@ -19,18 +22,25 @@ import java.util.List;
 import static com.woowacourse.caffeine.presentation.controller.ShopController.V1_SHOP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 
 @WebTestClientWithDbUnitTest
+@ExtendWith(MockitoExtension.class)
 public class OrderControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
 
+    @Autowired
+    private NotificationInternalService notificationInternalService;
+
     @Test
     @DisplayName("주문 생성 및 단일 주문 조회2")
     void create2() {
         final long shopId = 100L;
-        final String customerId = "";
         final long menuItemId1 = 1L;
         final long menuItemId2 = 2L;
         final List<Long> menuItems = Arrays.asList(menuItemId1, menuItemId2);
@@ -54,7 +64,7 @@ public class OrderControllerTest {
             .returnResult();
 
         final OrderResponse orderResponse = result.getResponseBody();
-
+        verify(notificationInternalService, atLeastOnce()).sendShop(eq(shopId), any());
         assertNotNull(orderResponse);
     }
 
@@ -135,6 +145,7 @@ public class OrderControllerTest {
             .uri(url)
             .exchange()
             .expectStatus().isOk();
+        verify(notificationInternalService, atLeastOnce()).sendCustomer(any(), any());
     }
 
     @Test
@@ -155,6 +166,7 @@ public class OrderControllerTest {
             .uri(url)
             .exchange()
             .expectStatus().isOk();
+        verify(notificationInternalService, atLeastOnce()).sendCustomer(any(), any());
     }
 
     @Test
@@ -181,6 +193,7 @@ public class OrderControllerTest {
             .uri(finishUrl)
             .exchange()
             .expectStatus().isOk();
+        verify(notificationInternalService, atLeastOnce()).sendCustomer(any(), any());
     }
 
     @Test

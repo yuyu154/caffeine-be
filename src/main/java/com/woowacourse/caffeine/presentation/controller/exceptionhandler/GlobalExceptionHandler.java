@@ -5,8 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice(basePackages = {"com.woowacourse.caffeine.presentation.controller"})
+@RestControllerAdvice(basePackages = {"com.woowacourse.caffeine.presentation.controller"})
 public class GlobalExceptionHandler {
 
     @ResponseBody

@@ -19,7 +19,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,13 +37,10 @@ public class OrderInternalServiceTest {
     private ShopInternalService shopInternalService;
 
     @Mock
-    private ShopNotificationService shopNotificationService;
-
-    @Mock
     private OrderItemInternalService orderItemInternalService;
 
     @Mock
-    private CustomerNotificationService customerNotificationService;
+    private FcmNotificationInternalService notificationInternalService;
 
     @InjectMocks
     private OrderInternalService orderInternalService;
@@ -75,6 +71,6 @@ public class OrderInternalServiceTest {
 
         // then
         assertThat(created.getShop().getName()).isEqualTo(shopName);
-        verify(shopNotificationService, atLeastOnce()).send(anyLong(), anyString());
+        verify(notificationInternalService, atLeastOnce()).sendShop(anyLong(), any());
     }
 }
