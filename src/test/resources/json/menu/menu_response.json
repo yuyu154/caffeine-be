@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "name": "menuName",
+  "nameInEnglish": "menuNameInEnglish",
+  "description": "설명",
+  "price": 5000,
+  "image": "https://github.com/image",
+  "category": "CAFFEINE"
+}

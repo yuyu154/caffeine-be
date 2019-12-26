@@ -1,4 +1,4 @@
-package com.woowacourse.caffeine.presentation.controller;
+package com.woowacourse.caffeine.presentation.controller.documentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
@@ -7,18 +7,23 @@ import com.woowacourse.caffeine.application.dto.ShopResponses;
 import com.woowacourse.caffeine.application.service.MenuItemService;
 import com.woowacourse.caffeine.application.service.ShopService;
 import com.woowacourse.caffeine.mock.ShopResponseRepository;
+import com.woowacourse.caffeine.presentation.controller.ShopController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static com.woowacourse.caffeine.presentation.controller.ShopController.V1_SHOP;
 import static com.woowacourse.caffeine.utils.ApiDocumentUtils.getDocumentRequest;
@@ -150,5 +155,22 @@ public class ShopDocumentationTest {
                 getDocumentResponse(),
                 pathParameters()
             ));
+    }
+
+
+    @Test
+    void search() throws Exception {
+
+        List<ShopResponse> shopResponses = Arrays.asList(ShopResponseRepository.shopResponse1, ShopResponseRepository.shopResponse2);
+        Page<ShopResponse> shopPages = new PageImpl<>(shopResponses);
+        given(shopService.search(any(), any(), any())).willReturn(shopPages);
+
+        ResultActions perform = mockMvc.perform(RestDocumentationRequestBuilders
+            .get(V1_SHOP + "/search/?keyword=address&contents=송파구"
+                + "&size=5&page=0"));
+
+        perform.andExpect(status().isOk())
+            .andDo(print())
+            .andDo(document("search", getDocumentRequest(), getDocumentResponse()));
     }
 }

@@ -513,6 +513,7 @@ include::{snippets}/order-finish/http-response.adoc[]
 Response Body Example:
 
 include::{snippets}/order-finish/response-body.adoc[]
+== search-API
 
 == 가게 검색
 
@@ -525,6 +526,10 @@ include::{snippets}/search/curl-request.adoc[]
 Request HTTP Example:
 
 include::{snippets}/search/http-request.adoc[]
+
+Request Path Variable Example:
+
+include::{snippets}/search/path-parameters.adoc[]
 
 Request Body Example:
 

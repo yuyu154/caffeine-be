@@ -1,0 +1,9 @@
+{
+  "name": "menuName",
+  "nameInEnglish": "menuNameInEnglish",
+  "description": "설명",
+  "price": 5000,
+  "imgUrl": "https://github.com/img.jpeg",
+  "category": "A",
+  "vendor": 1
+}

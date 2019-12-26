@@ -24,15 +24,8 @@ test {
     outputs.dir snippetsDir
 }
 
-task copyDocument(type: Copy) {
+build { 
     dependsOn asciidoctor
-
-    from file("build/asciidoc/html5/")
-    into file("src/main/resources/static/docs")
-}
-
-build {
-    dependsOn copyDocument
 }
 
 configurations {
