@@ -69,11 +69,11 @@ class OrderInternalService {
 
     public void rejectOrder(final Order order) {
         order.reject();
-        notificationInternalService.sendCustomer(order.getCustomerId(), new NotificationSendRequest("주문이 접수됐습니다."));
+        notificationInternalService.sendCustomer(order.getCustomerId(), new NotificationSendRequest("주문이 거절됐습니다."));
     }
 
     public void finishOrder(final Order order) {
         order.finish();
-        notificationInternalService.sendCustomer(order.getCustomerId(), new NotificationSendRequest("주문이 접수됐습니다."));
+        notificationInternalService.sendCustomer(order.getCustomerId(), new NotificationSendRequest("주문하신 음료가 준비됐습니다."));
     }
 }
