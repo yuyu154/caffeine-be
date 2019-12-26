@@ -1,0 +1,546 @@
+= Caffeine Service API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+
+[[introduction]]
+== 소개
+
+Caffeine Service Spring Rest Docs API
+
+[[common]]
+== 공통 규약
+
+= Shop API
+
+== 가게 생성 API
+=== Request
+
+CURL:
+
+include::{snippets}/shop-create/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/shop-create/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/shop-create/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/shop-create/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/shop-create/response-body.adoc[]
+
+== retrieve-shop API
+
+=== Request
+
+CURL:
+
+include::{snippets}/shop-retrieve/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/shop-retrieve/http-request.adoc[]
+
+Request Path Variable Example:
+
+include::{snippets}/shop-retrieve/path-parameters.adoc[]
+
+Request Body Example:
+
+include::{snippets}/shop-retrieve/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/shop-retrieve/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/shop-retrieve/response-body.adoc[]
+
+== 가게의 메뉴 조회 API
+
+=== Request
+
+CURL:
+
+include::{snippets}/shop-menu-list/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/shop-menu-list/http-request.adoc[]
+
+Request Path Variable Example:
+
+include::{snippets}/shop-menu-list/path-parameters.adoc[]
+
+Request Body Example:
+
+include::{snippets}/shop-menu-list/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/shop-menu-list/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/shop-menu-list/response-body.adoc[]
+
+
+== 가게 목록 API
+
+=== Request
+
+CURL:
+
+include::{snippets}/shop-list/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/shop-list/http-request.adoc[]
+
+Request Path Variable Example:
+
+include::{snippets}/shop-list/path-parameters.adoc[]
+
+Request Body Example:
+
+include::{snippets}/shop-list/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/shop-list/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/shop-list/response-body.adoc[]
+
+= Menu API
+
+== 메뉴 생성
+
+=== Request
+
+CURL:
+
+include::{snippets}/menu-item-create/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/menu-item-create/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/menu-item-create/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/menu-item-create/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/menu-item-create/response-body.adoc[]
+
+== 메뉴 단일 조회
+
+=== Request
+
+CURL:
+
+include::{snippets}/menu-item-find/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/menu-item-find/http-request.adoc[]
+
+Request Path Variable Example:
+
+include::{snippets}/menu-item-find/path-parameters.adoc[]
+
+Request Body Example:
+
+include::{snippets}/menu-item-find/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/menu-item-find/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/menu-item-find/response-body.adoc[]
+
+== 메뉴 변경
+
+=== Request
+
+CURL:
+
+include::{snippets}/menu-item-update/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/menu-item-update/http-request.adoc[]
+
+Request Path Variable Example:
+
+include::{snippets}/menu-item-update/path-parameters.adoc[]
+
+Request Body Example:
+
+include::{snippets}/menu-item-update/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/menu-item-update/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/menu-item-update/response-body.adoc[]
+
+== 메뉴 삭제
+
+=== Request
+
+CURL:
+
+include::{snippets}/menu-item-delete/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/menu-item-delete/http-request.adoc[]
+
+Request Path Variable Example:
+
+include::{snippets}/menu-item-delete/path-parameters.adoc[]
+
+Request Body Example:
+
+include::{snippets}/menu-item-delete/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/menu-item-delete/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/menu-item-delete/response-body.adoc[]
+
+= Owner API
+
+== 사장 회원가입
+
+=== Request
+
+CURL:
+
+include::{snippets}/owner-create/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/owner-create/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/owner-create/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/owner-create/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/owner-create/response-body.adoc[]
+
+== 사장 로그인
+
+=== Request
+
+CURL:
+
+include::{snippets}/owner-login/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/owner-login/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/owner-login/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/owner-login/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/owner-login/response-body.adoc[]
+
+== 사장 로그아웃
+
+=== Request
+
+CURL:
+
+include::{snippets}/owner-logout/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/owner-logout/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/owner-logout/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/owner-logout/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/owner-logout/response-body.adoc[]
+
+== 사장 본인 정보 조회
+
+=== Request
+
+CURL:
+
+include::{snippets}/owner-me-find/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/owner-me-find/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/owner-me-find/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/owner-me-find/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/owner-me-find/response-body.adoc[]
+
+= Order API
+
+== 주문 생성
+
+=== Request
+
+CURL:
+
+include::{snippets}/order-create/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/order-create/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/order-create/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/order-create/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/order-create/response-body.adoc[]
+
+== 주문 단일 조회 (ID)
+
+=== Request
+
+CURL:
+
+include::{snippets}/order-find-by-id/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/order-find-by-id/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/order-find-by-id/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/order-find-by-id/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/order-find-by-id/response-body.adoc[]
+
+== 주문 조회 (상태)
+
+=== Request
+
+CURL:
+
+include::{snippets}/order-find-by-status/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/order-find-by-status/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/order-find-by-status/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/order-find-by-status/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/order-find-by-status/response-body.adoc[]
+
+== 주문 처리
+
+=== Request
+
+CURL:
+
+include::{snippets}/order-accept/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/order-accept/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/order-accept/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/order-accept/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/order-accept/response-body.adoc[]
+
+== 주문 거절
+
+=== Request
+
+CURL:
+
+include::{snippets}/order-reject/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/order-reject/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/order-reject/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/order-reject/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/order-reject/response-body.adoc[]
+
+== 주문 완료
+
+=== Request
+
+CURL:
+
+include::{snippets}/order-finish/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/order-finish/http-request.adoc[]
+
+Request Body Example:
+
+include::{snippets}/order-finish/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/order-finish/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/order-finish/response-body.adoc[]
+== search-API
+
+== 가게 검색
+
+=== Request
+
+CURL:
+
+include::{snippets}/search/curl-request.adoc[]
+
+Request HTTP Example:
+
+include::{snippets}/search/http-request.adoc[]
+
+Request Path Variable Example:
+
+include::{snippets}/search/path-parameters.adoc[]
+
+Request Body Example:
+
+include::{snippets}/search/request-body.adoc[]
+
+=== Response
+
+Response HTTP Example:
+
+include::{snippets}/search/http-response.adoc[]
+
+Response Body Example:
+
+include::{snippets}/search/response-body.adoc[]
