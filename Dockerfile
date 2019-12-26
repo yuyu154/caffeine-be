@@ -9,4 +9,4 @@ RUN cp ./build/libs/$JAR_NAME /usr/src/app
 WORKDIR /usr/src/app
 RUN rm -rf build
 EXPOSE 8080
-CMD java -jar $JAR_NAME --spring.profiles.active=deploy
+CMD java -Dspring.profiles.active=deploy -jar $JAR_NAME
