@@ -63,6 +63,6 @@ class FcmNotificationInternalService implements NotificationInternalService {
     }
 
     public void sendCustomer(final String customerId, final NotificationSendRequest request) {
-        send(String.format("/shops/%s/send", customerId), request);
+        send(String.format("/customers/%s/send", customerId), request);
     }
 }
