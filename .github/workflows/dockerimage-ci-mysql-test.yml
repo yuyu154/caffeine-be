@@ -1,8 +1,7 @@
 name: CI-Backend-temp
 
 on:
-  pull_request:
-    branches: develop
+  - pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
