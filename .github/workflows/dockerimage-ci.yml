@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: execute build
         run: |
-          docker build . --file Dockerfile --tag yusi22131/backend:latest
+          docker build . --file Dockerfile --tag kangmin46/backend:latest
       - name: docker login
         run: |
           docker login -u ${{secrets.DOCKER_USER_NAME}} --password ${{secrets.DOCKER_USER_PASSWORD}}
