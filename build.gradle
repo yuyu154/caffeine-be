@@ -24,6 +24,10 @@ test {
     outputs.dir snippetsDir
 }
 
+build { 
+    dependsOn asciidoctor
+}
+
 configurations {
     developmentOnly
     runtimeClasspath {
