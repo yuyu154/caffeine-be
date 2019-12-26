@@ -94,4 +94,52 @@ public class ShopControllerTest {
         assertThat(actual.getShopResponses().get(0).getId()).isEqualTo(shopResponse1.getId());
         assertThat(actual.getShopResponses().get(1).getId()).isEqualTo(shopResponse2.getId());
     }
+
+    @Test
+    @DisplayName("주소로 검색을 했을 때 잘 찾는지")
+    void search_by_address() {
+
+        webTestClient.get()
+            .uri(V1_SHOP + "/search/?keyword=address&contents=오금로" +
+                "&size=5&page=0")
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .expectBody()
+            .jsonPath("$.content").isArray();
+
+    }
+
+    @Test
+    @DisplayName("제목으로 검색 했을 때 잘 찾는 지")
+    void search_by_name() {
+        webTestClient.get()
+            .uri(V1_SHOP + "/search/?keyword=name&contents=송파" +
+                "&size=5&page=0")
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .expectBody()
+            .jsonPath("$.content").isArray();
+    }
+
+    @Test
+    @DisplayName("올바르지 않은 검색 요청")
+    void invalid_search_request() {
+        webTestClient.get()
+            .uri(V1_SHOP + "/search/?keyword=add&contents=송파")
+            .exchange()
+            .expectStatus()
+            .isBadRequest();
+    }
+
+    @Test
+    @DisplayName("올바르지 않은 키워드 요청")
+    void invalid_keyword_search_request() {
+        webTestClient.get()
+            .uri(V1_SHOP + "/search/?key=name&contents=송파")
+            .exchange()
+            .expectStatus()
+            .isBadRequest();
+    }
 }

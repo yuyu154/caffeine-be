@@ -21,8 +21,8 @@ class FcmNotificationInternalService implements NotificationInternalService {
     public FcmNotificationInternalService(final ShopInternalService shopInternalService) {
         this.shopInternalService = shopInternalService;
         this.notificationApiClient = WebClient.builder()
-                .baseUrl("http://notification:8000")
-                .build();
+            .baseUrl("http://notification:8000")
+            .build();
     }
 
     public void subscribeShop(final long shopId, final NotificationSubscriptionsRequest request) {
@@ -32,11 +32,11 @@ class FcmNotificationInternalService implements NotificationInternalService {
 
     private void subscribe(final String url, final NotificationSubscriptionsRequest request) {
         ResponseEntity<byte[]> res = notificationApiClient.post()
-                .uri(url)
-                .body(Mono.just(request), NotificationSubscriptionsRequest.class)
-                .retrieve()
-                .toEntity(byte[].class)
-                .block();
+            .uri(url)
+            .body(Mono.just(request), NotificationSubscriptionsRequest.class)
+            .retrieve()
+            .toEntity(byte[].class)
+            .block();
         if (res.getStatusCode() != HttpStatus.OK) {
             logger.info("Subscription failed with url '{}' and token '{}'", url, request.getToken());
         }
@@ -52,11 +52,11 @@ class FcmNotificationInternalService implements NotificationInternalService {
 
     private void send(final String url, final NotificationSendRequest request) {
         ResponseEntity<byte[]> res = notificationApiClient.post()
-                .uri(url)
-                .body(Mono.just(request), NotificationSendRequest.class)
-                .retrieve()
-                .toEntity(byte[].class)
-                .block();
+            .uri(url)
+            .body(Mono.just(request), NotificationSendRequest.class)
+            .retrieve()
+            .toEntity(byte[].class)
+            .block();
         if (res.getStatusCode() != HttpStatus.OK) {
             logger.info("Failed to send with url '{}'", url);
         }

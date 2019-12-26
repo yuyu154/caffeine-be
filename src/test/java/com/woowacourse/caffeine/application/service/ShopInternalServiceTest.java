@@ -1,7 +1,9 @@
 package com.woowacourse.caffeine.application.service;
 
 import com.woowacourse.caffeine.application.dto.ShopCreateRequest;
+import com.woowacourse.caffeine.application.dto.ShopSearchDto;
 import com.woowacourse.caffeine.application.exception.ShopNotFoundException;
+import com.woowacourse.caffeine.domain.SearchKeyword;
 import com.woowacourse.caffeine.domain.Shop;
 import com.woowacourse.caffeine.mock.ShopRequestRepository;
 import com.woowacourse.caffeine.mock.ShopResponseRepository;
@@ -11,11 +13,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static com.woowacourse.caffeine.presentation.controller.OwnerController.DEFAULT_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -30,6 +37,9 @@ public class ShopInternalServiceTest {
 
     @InjectMocks
     private ShopInternalService shopInternalService;
+
+    @Mock
+    private Pageable pageable;
 
     @Test
     void create() {
@@ -89,5 +99,29 @@ public class ShopInternalServiceTest {
         assertNotNull(actual);
         assertThat(actual.get(0).getName()).isEqualTo(shop1.getName());
         assertThat(actual.get(1).getName()).isEqualTo(shop2.getName());
+    }
+
+    @Test
+    void search_by_name() {
+        ShopSearchDto shopSearchDto = new ShopSearchDto("name", "어디야");
+        List<Shop> shops = Arrays.asList(new Shop("어디야 커피", DEFAULT_IMAGE, "송파구", "010-3080-5610")
+            , new Shop("어디야 커피 부산점", DEFAULT_IMAGE, "송파구", "010-3080-5610"));
+        Page<Shop> shopPages = new PageImpl<>(shops);
+
+        when(shopRepository.findByNameContaining(any(), any())).thenReturn(shopPages);
+
+        Page<Shop> search = shopInternalService.search(shopSearchDto, pageable, SearchKeyword.of(shopSearchDto.getKeyword()).getShopSearchFunction());
+        assertThat(search.getTotalElements()).isEqualTo(2L);
+    }
+
+    @Test
+    void search_by_address() {
+        ShopSearchDto shopSearchDto = new ShopSearchDto("address", "송피");
+        List<Shop> shops = Arrays.asList(new Shop("어디야 커피", DEFAULT_IMAGE, "송파나루", "010-3080-5610")
+            , new Shop("어디야 커피 부산점", DEFAULT_IMAGE, "송파구", "010-3080-5610"));
+        Page<Shop> shopPages = new PageImpl<>(shops);
+        when(shopRepository.findByAddressContaining(any(), any())).thenReturn(shopPages);
+        Page<Shop> search = shopInternalService.search(shopSearchDto, pageable, SearchKeyword.of(shopSearchDto.getKeyword()).getShopSearchFunction());
+        assertThat(search.getTotalElements()).isEqualTo(2L);
     }
 }
