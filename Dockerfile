@@ -1,3 +1,4 @@
+
 FROM openjdk:8
 ENV JAR_NAME caffeine-0.0.1-SNAPSHOT.jar
 COPY . /usr/src/app/build
