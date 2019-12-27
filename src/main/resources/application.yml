@@ -35,6 +35,6 @@ spring:
                 format_sql: true
                 use_sql_comments: true
     datasource:
-        url: jdbc:mysql://localhost:13306/caffeine?serverTimezone=UTC
-        username: ed
-        password: password
+        url: jdbc:mysql://deploy_db:13306/caffeine?serverTimezone=UTC
+        username: root
+        password: root
